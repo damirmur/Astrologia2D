@@ -8,6 +8,7 @@
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>Astrology2D</name>
             <source-roots>
+                <root id="src.res.dir" name="res"/>
                 <root id="src.dir"/>
             </source-roots>
             <test-roots>

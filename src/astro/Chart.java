@@ -18,7 +18,6 @@ public class Chart {
 	private int birthDay,birthYear, birthMonth, birthDate, birthHour, birthMinute, birthSecond, lon_deg, lon_min, lon_sec, lat_deg, lat_min, lat_sec;
 	private double timeZoneOffset;
 	private int dstOffset, sex;
-//	private boolean isNorth, isEast;//These have yet to be implemented
 	private String id;
 
     public Chart() {

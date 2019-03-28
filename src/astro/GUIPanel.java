@@ -13,7 +13,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.Cursor;;
+import java.awt.Cursor;
+;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import astro.Setting.TypeAsp;
 import astro.Setting.TypeCards;
 //import com.sun.glass.ui.Cursor;
 import java.awt.BasicStroke;
+import java.awt.RenderingHints;
 
 import java.util.stream.IntStream;
 
@@ -35,6 +37,8 @@ import java.util.stream.IntStream;
  *
  * @author Admin
  */
+
+
 public class GUIPanel extends javax.swing.JPanel {
 
     private class arr_p_pl {
@@ -96,25 +100,25 @@ public class GUIPanel extends javax.swing.JPanel {
         this.color_z = Setting.color_zod();
         this.setPreferredSize(new Dimension(600, 600));
         try {
-            this.zod_img = ImageIO.read(new File(Setting.fileZodiac));
+            this.zod_img = ImageIO.read(getClass().getClassLoader().getResource(Setting.fileZodiac));
         } catch (IOException ex) {
             Logger.getLogger(GUIPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
-            this.earth_img = (ImageIO.read(new File(Setting.fileEarth)));
+            this.earth_img = (ImageIO.read(getClass().getClassLoader().getResource(Setting.fileEarth)));
         } catch (IOException ex) {
             Logger.getLogger(GUIPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.p_img = new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
         try {
-            this.p_img = (ImageIO.read(new File(Setting.filePoint)));
+            this.p_img = (ImageIO.read(getClass().getClassLoader().getResource(Setting.filePoint)));
         } catch (IOException ex) {
             Logger.getLogger(GUIPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.pl_img = new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
         try {
-            this.pl_img = (ImageIO.read(new File(Setting.filePlanet)));
+            this.pl_img = (ImageIO.read(getClass().getClassLoader().getResource(Setting.filePlanet)));
         } catch (IOException ex) {
             Logger.getLogger(GUIPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -156,39 +160,18 @@ public class GUIPanel extends javax.swing.JPanel {
     }
 
     private void CreateAspLabel(Graphics g) {
-//    private JLabel CreateAsp() {
-//    Graphics2D g2 = (Graphics2D) g;
-//    Dimension dim = getSize();
-//    int w = (int) dim.getWidth();
-//    int h = (int) dim.getHeight();
-//
-//    // Create the buffer
-//    BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-//    Graphics2D ig2 = image.createGraphics();
-//
-//    // Paint everythign on the buffer
-//    // Clears the rectangle that was previously drawn
-//    ig2.setPaint(Color.BLACK);
-//    ig2.fillRect(0, 0, w, h);
-//
-//
-//    // Paint the buffer
-//    g2.drawImage(image, 0, 0, null);
-//        ImageIcon p_icon = iconRezive(earth_img, 30);
         JLabel lbl = new JLabel("");
         lbl.setForeground(Color.red);
         lbl.setOpaque(true);
         lbl.setBackground(Color.BLACK);
         lbl.setLocation(15, 15);
         lbl.setSize(20, 2);
-//        lbl.setIcon(p_icon);
         lbl.setText("");
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
         lbl.setToolTipText("Interactive Aspect");
         lbl.setVisible(true);
         labels_sasp.add(lbl);
         this.add(lbl);
-//        return lbl;
     }
 
     private ImageIcon imgPlanet(int num) {
@@ -398,6 +381,7 @@ public class GUIPanel extends javax.swing.JPanel {
             }
         }
         imgPoints(ps);
+        imgSAspects();
 
         this.revalidate();
         this.repaint();
@@ -466,6 +450,7 @@ public class GUIPanel extends javax.swing.JPanel {
     ) {
         super.paintComponent(g);
         this.graphics2d = (Graphics2D) g;
+        this.graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         this.graphics2d.setStroke(new BasicStroke(2.0f));
         paintZodiac(this.graphics2d);
         if (line_p_pl.size() > 0) {
@@ -475,7 +460,6 @@ public class GUIPanel extends javax.swing.JPanel {
                 this.graphics2d.drawLine(line.x1, line.y1, line.x2, line.y2);
             });
         }
-        imgSAspects();
 //System.out.println("repaint");
     }
 

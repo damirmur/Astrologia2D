@@ -428,7 +428,9 @@ public class GlobalWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GlobalWindow().setVisible(true);
+             GlobalWindow jj=  new GlobalWindow();
+             jj.setVisible(true);
+        jj.repaint();
             }
         });
     }

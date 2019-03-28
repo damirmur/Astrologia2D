@@ -41,10 +41,10 @@ public class Setting {
     public static double lat = 52.7807000;//широта
     
 //GUIPanel
-    public static String filePoint="src/res/point.png";
-    public static String fileZodiac="src/res/zodiac.gif";
-    public static String filePlanet="src/res/sun_hiro_black.png";
-    public static String fileEarth="src/res/earth.png";
+    public static String filePoint="res/point.png";
+    public static String fileZodiac="res/zodiac.gif";
+    public static String filePlanet="res/sun_hiro_black.png";
+    public static String fileEarth="res/earth.png";
 //размещение планет на карте:
 //0 - неотсортировано; 1 - циркулярно;2 - радиус-вектор;    
     public static int allocation2D = 1;
