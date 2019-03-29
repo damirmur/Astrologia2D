@@ -430,7 +430,7 @@ public class GlobalWindow extends javax.swing.JFrame {
             public void run() {
              GlobalWindow jj=  new GlobalWindow();
              jj.setVisible(true);
-        jj.repaint();
+//        jj.repaint();
             }
         });
     }

@@ -306,7 +306,7 @@ public class GUIPanel extends javax.swing.JPanel {
         }
     }
 
-    private void imgSAspects() {
+    private void imgSAspects(Graphics2D graphics2d) {
         if (line_s_asp.size() > 0) {
             line_s_asp.forEach((line)
                     -> {
@@ -350,7 +350,7 @@ public class GUIPanel extends javax.swing.JPanel {
         position_pl(aPPM);
         createP_Pl(aPPM);
         createS_ASP(aPPM);
-//                CreateAsp();
+        //            CreateAsp();
 
     }
 
@@ -381,7 +381,6 @@ public class GUIPanel extends javax.swing.JPanel {
             }
         }
         imgPoints(ps);
-        imgSAspects();
 
         this.revalidate();
         this.repaint();
@@ -459,6 +458,8 @@ public class GUIPanel extends javax.swing.JPanel {
             line_p_pl.forEach((line) -> {
                 this.graphics2d.drawLine(line.x1, line.y1, line.x2, line.y2);
             });
+            imgSAspects(this.graphics2d);
+
         }
 //System.out.println("repaint");
     }
