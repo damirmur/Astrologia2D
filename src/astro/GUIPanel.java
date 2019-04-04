@@ -6,6 +6,11 @@
 package astro;
 
 import astro.Calc.CalcAspect;
+import astro.Setting.TopCards;
+import astro.Setting.TypeAsp;
+import astro.Setting.TypeCards;
+import static astro.Setting.c_green;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -14,8 +19,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.Cursor;
+import java.awt.RenderingHints;
 ;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,20 +28,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import astro.Setting;
-import astro.Setting.TypeAsp;
-import astro.Setting.TypeCards;
-//import com.sun.glass.ui.Cursor;
-import java.awt.BasicStroke;
-import java.awt.RenderingHints;
 
 import java.util.stream.IntStream;
+import javax.swing.JLabel;
 
-/**
- *
- * @author Admin
- */
 
 
 public class GUIPanel extends javax.swing.JPanel {
@@ -46,6 +41,18 @@ public class GUIPanel extends javax.swing.JPanel {
         int x1, y1, x2, y2;
 
         public arr_p_pl(int x1, int y1, int x2, int y2) {
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.y2 = y2;
+        }
+    }
+
+    private class arr_h {
+
+        int x1, y1, x2, y2;
+
+        public arr_h(int x1, int y1, int x2, int y2) {
             this.x1 = x1;
             this.y1 = y1;
             this.x2 = x2;
@@ -68,16 +75,19 @@ public class GUIPanel extends javax.swing.JPanel {
     }
 
     private static List<arr_s_asp> line_s_asp = new ArrayList<arr_s_asp>();
+    private static List<arr_h> line_h = new ArrayList<arr_h>();
     private static List<arr_p_pl> line_p_pl = new ArrayList<arr_p_pl>();
     private static List<JLabel> labels_p = new ArrayList<JLabel>();
     private static List<JLabel> labels_pl = new ArrayList<JLabel>();
     private static List<JLabel> labels_sasp = new ArrayList<JLabel>();
     private static List<JLabel> labels_dasp = new ArrayList<JLabel>();
+    double startGoroskop=0;
     int[][] color_z;
     Graphics2D graphics2d;
     int[] c_blank = {300, 250};
     int r_zod_sym = 200;
     int r_out_z = r_zod_sym + 20;
+    int r_h = r_out_z + 20;
     int r_in_z = r_zod_sym - 20;
     int r_in_p = r_in_z - 100;
     int r_in_p2 = r_in_z - 50;
@@ -130,7 +140,7 @@ public class GUIPanel extends javax.swing.JPanel {
         return imageIcon;
     }
 
-    private JLabel CreateLPointP(Point p, Color c, int x, int y) {
+    private JLabel createLPointP(Point p, Color c, int x, int y) {
         int a = 4;
         ImageIcon p_icon = iconRezive(this.p_img.getSubimage(0, (int) (Math.random() * 4) * 8, 8, 8), a);
         JLabel lbl = new JLabel("");
@@ -145,7 +155,7 @@ public class GUIPanel extends javax.swing.JPanel {
         return lbl;
     }
 
-    private JLabel CreateLPointPl(Point p, Color c, int x, int y) {
+    private JLabel createLPointPl(Point p, Color c, int x, int y) {
         JLabel lbl = new JLabel(p.getSwe_name());
         lbl.setForeground(c);
         lbl.setLocation(x, y);
@@ -159,7 +169,7 @@ public class GUIPanel extends javax.swing.JPanel {
         return lbl;
     }
 
-    private void CreateAspLabel(Graphics g) {
+    private void createAspLabel() {
         JLabel lbl = new JLabel("");
         lbl.setForeground(Color.red);
         lbl.setOpaque(true);
@@ -198,6 +208,11 @@ public class GUIPanel extends javax.swing.JPanel {
     }
 
     private void del_img() {
+        while (line_h.size() > 0) {
+            int index = line_h.size() - 1;
+            arr_h arr = line_h.remove(index);
+            arr = null;
+        }
         while (labels_sasp.size() > 0) {
             int index = labels_sasp.size() - 1;
             JLabel label = labels_sasp.remove(index);
@@ -230,10 +245,10 @@ public class GUIPanel extends javax.swing.JPanel {
         double ad;
         int xp, yp;
         for (Point p : ps) {
-            ad = Math.toRadians(p.getPos());
+            ad = Math.toRadians(p.getPos()-startGoroskop);
             xp = c_blank[0] + (int) Math.round(-Math.cos(ad) * (r_in_p + size_pict) - c_size_pict);
             yp = c_blank[1] + (int) Math.round(Math.sin(ad) * (r_in_p + size_pict) - c_size_pict);
-            this.add(CreateLPointPl(p, c_info, xp, yp));
+            this.add(createLPointPl(p, c_info, xp, yp));
         }
     }
 
@@ -241,10 +256,10 @@ public class GUIPanel extends javax.swing.JPanel {
         double ad;
         int xp1, yp1;
         for (PointPosMap p : aPPM) {
-            ad = Math.toRadians(p.getPosD() * 360 / region_pl());
+            ad = Math.toRadians(p.getPosD() * 360 / region_pl()-startGoroskop);
             xp1 = c_blank[0] + (int) Math.round(-Math.cos(ad) * (r_in_p + size_pict / 2 * ((p.getPosR() + 1) * 2))) - c_size_pict;
             yp1 = c_blank[1] + (int) Math.round(Math.sin(ad) * (r_in_p + size_pict / 2 * ((p.getPosR() + 1) * 2))) - c_size_pict;
-            this.add(CreateLPointPl(p.getPl(), c_info, xp1, yp1));
+            this.add(createLPointPl(p.getPl(), c_info, xp1, yp1));
         }
     }
 
@@ -261,8 +276,8 @@ public class GUIPanel extends javax.swing.JPanel {
         int xp1, yp1;
         int xp2, yp2;
         for (Aspect as : SingleCardAspect) {
-            ad1 = Math.toRadians(as.getP()[0].getPos());
-            ad2 = Math.toRadians(as.getP()[1].getPos());
+            ad1 = Math.toRadians(as.getP()[0].getPos()-startGoroskop);
+            ad2 = Math.toRadians(as.getP()[1].getPos()-startGoroskop);
             xp1 = c_blank[0] + (int) Math.round(-Math.cos(ad1) * r_in_p) - 2;
             yp1 = c_blank[1] + (int) Math.round(Math.sin(ad1) * r_in_p) - 2;
             xp2 = c_blank[0] + (int) Math.round(-Math.cos(ad2) * r_in_p) - 2;
@@ -285,8 +300,8 @@ public class GUIPanel extends javax.swing.JPanel {
         int xp1, yp1;
         int xp2, yp2;
         for (PointPosMap p : aPPM) {
-            ad_p = Math.toRadians(p.getPosGr());
-            ad = Math.toRadians(p.getPosD() * 360 / region_pl());
+            ad_p = Math.toRadians(p.getPosGr()-startGoroskop);
+            ad = Math.toRadians(p.getPosD() * 360 / region_pl()-startGoroskop);
             xp1 = c_blank[0] + (int) Math.round(-Math.cos(ad) * (r_in_p + size_pict / 2 * ((p.getPosR() + 1) * 2)));
             yp1 = c_blank[1] + (int) Math.round(Math.sin(ad) * (r_in_p + size_pict / 2 * ((p.getPosR() + 1) * 2)));
             xp2 = c_blank[0] + (int) Math.round(-Math.cos(ad_p) * r_in_p) - 2;
@@ -299,10 +314,61 @@ public class GUIPanel extends javax.swing.JPanel {
         double ad;
         int xp, yp;
         for (Point p : ps) {
-            ad = Math.toRadians(p.getPos());
+            ad = Math.toRadians(p.getPos()-startGoroskop);
             xp = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_in_p) - 2;
             yp = c_blank[1] + (int) Math.round(Math.sin(ad) * r_in_p) - 2;
-            this.add(CreateLPointP(p, c_info, xp, yp));
+            this.add(createLPointP(p, c_info, xp, yp));
+        }
+    }
+
+    private void create_House(Houses hs) {
+        if (hs == null) {
+            return;
+        }
+        if (hs.h == null) {
+            return;
+        }
+        double ad;
+        int xp1, yp1;
+        int xp2, yp2;
+        for (int i = 1; i < hs.h.length; i++) {
+            ad = Math.toRadians(hs.h[i]-startGoroskop);
+            xp1 = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_in_p);
+            yp1 = c_blank[1] + (int) Math.round(Math.sin(ad) * r_in_p);
+            xp2 = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_h);
+            yp2 = c_blank[1] + (int) Math.round(Math.sin(ad) * r_h);
+            line_h.add(new arr_h(xp1, yp1, xp2, yp2));
+        }
+    }
+
+    private void imgHouse(Graphics2D graphics2d) {
+        if (line_h.size() > 0) {
+            for (int i = 0; i < line_h.size(); i++) {
+                switch (i) {
+                    case 0:
+                        graphics2d.setColor(Color.RED);
+                        graphics2d.setStroke(new BasicStroke(2.0f));
+                        break;
+                    case 3:
+                        graphics2d.setColor(Color.BLACK);
+                        graphics2d.setStroke(new BasicStroke(2.0f));
+                        break;
+                    case 6:
+                        graphics2d.setColor(Color.BLUE);
+                        graphics2d.setStroke(new BasicStroke(2.0f));
+                        break;
+                    case 9:
+                        graphics2d.setColor(c_green);
+                        graphics2d.setStroke(new BasicStroke(2.0f));
+                        break;
+                    default:
+                        graphics2d.setColor(Color.BLACK);
+                        graphics2d.setStroke(new BasicStroke(1.0f));
+                        break;
+                }
+                graphics2d.drawLine(line_h.get(i).x1, line_h.get(i).y1, line_h.get(i).x2, line_h.get(i).y2);
+
+            }
         }
     }
 
@@ -319,7 +385,7 @@ public class GUIPanel extends javax.swing.JPanel {
                             break;
                         }
                         case GARMONIC: {
-                            Color clr = Color.GREEN;
+                            Color clr = c_green;
                             graphics2d.setColor(clr);
                             break;
                         }
@@ -363,9 +429,41 @@ public class GUIPanel extends javax.swing.JPanel {
         position_pl(aPPM);
     }
 
-    public void imgObjGoroskop(Point[] ps) {
+    public void paintCosmogram(Point[] ps) {
         del_img();
-        CreateAspLabel(this.graphics2d);
+        createAspLabel();
+        switch (Setting.allocation2D) {
+            case (1): {
+                circle_pl(ps);
+                break;
+            }
+            case (2): {
+                rvector_pl(ps);
+                break;
+            }
+            case (0): {
+                default_pl(ps);
+                break;
+            }
+        }
+        imgPoints(ps);
+
+        this.revalidate();
+        this.repaint();
+
+    }
+
+    public void paintGoroskop(Point[] ps, Houses hs) {
+        del_img();
+        createAspLabel();
+        if (hs != null) {
+            if (hs.h != null) {
+                if(Setting.topcards==TopCards.ASC){
+                startGoroskop=hs.getAsc();
+                }
+                create_House(hs);
+            }
+        }
         switch (Setting.allocation2D) {
             case (1): {
                 circle_pl(ps);
@@ -402,10 +500,10 @@ public class GUIPanel extends javax.swing.JPanel {
         int xz, yz;
         for (int i = 0; i < 12; i++) {
             graphics2d.setColor(new Color(color_z[i][0], color_z[i][1], color_z[i][2]));
-            graphics2d.fillArc(c_blank[0] - r_out_z, c_blank[1] - r_out_z, 2 * r_out_z, 2 * r_out_z, a + i * 30, 30);
+            graphics2d.fillArc(c_blank[0] - r_out_z, c_blank[1] - r_out_z, 2 * r_out_z, 2 * r_out_z, (int)(a + i * 30-startGoroskop), 30);
             graphics2d.setColor(c_info);
             graphics2d.setFont(astr_f);
-            ad = Math.toRadians(i * 30 + 15);
+            ad = Math.toRadians(i * 30 + 15-startGoroskop);
             xz = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_zod_sym);
             yz = c_blank[1] + (int) Math.round(Math.sin(ad) * r_zod_sym);
 //  Хотелось бы выводить астрологическим шрифтом
@@ -414,7 +512,7 @@ public class GUIPanel extends javax.swing.JPanel {
 //                graphics2d.drawString(astro.Setting.zodName[i], xz, yz);
             graphics2d.drawImage(zod_img, xz - 10, yz - 10, xz + 10, yz + 10, i * 40, 0, i * 40 + 40, 40, null);
             graphics2d.setColor(c_info);
-            ad = Math.toRadians(i * 30);
+            ad = Math.toRadians(i * 30-startGoroskop);
             xz = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_out_z);
             yz = c_blank[1] + (int) Math.round(Math.sin(ad) * r_out_z);
             graphics2d.drawLine(xz, yz, c_blank[0], c_blank[1]);
@@ -459,6 +557,7 @@ public class GUIPanel extends javax.swing.JPanel {
                 this.graphics2d.drawLine(line.x1, line.y1, line.x2, line.y2);
             });
             imgSAspects(this.graphics2d);
+            imgHouse(this.graphics2d);
 
         }
 //System.out.println("repaint");

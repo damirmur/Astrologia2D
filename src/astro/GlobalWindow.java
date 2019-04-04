@@ -11,7 +11,6 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import astro.Calc.CalcAspect;
 import astro.Calc.CalcEvent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 
 /**
@@ -27,8 +26,6 @@ public class GlobalWindow extends javax.swing.JFrame {
     public GlobalWindow() {
         initComponents();
         pack();
-        validate();
-        repaint();
     }
 
     /**
@@ -333,6 +330,7 @@ public class GlobalWindow extends javax.swing.JFrame {
 //        System.out.println(sw.swe_version().toString());
 
         jTextArea1.setText("");
+//            Goroscop gst = new Goroscop(dt);
         Cosmogram cs = new Cosmogram(dt);
         jTextArea1.append(String.format(Setting.locale_ru, dt.toString()) + "\n");
         jTextArea1.append("planet     \tpos.\n");
@@ -372,7 +370,8 @@ public class GlobalWindow extends javax.swing.JFrame {
 //        CalcEvent.PeriodZod(perldp1.getDate(), perldp2.getDate(), Integer.parseInt(interval.getText()),ps,zs);
             CalcEvent.PeriodAsp(perldp1.getDate(), perldp2.getDate(), Integer.parseInt(interval.getText()), ps, as);
         }
-        gUIPanel1.imgObjGoroskop(cs.getPoints());
+//        gUIPanel1.paintCosmogram(cs.getPoints());
+        gUIPanel1.paintGoroskop(cs.getPoints(), Houses.houses_position(dt, Setting.lon, Setting.lat, Setting.houseSystem));
     }//GEN-LAST:event_swe_start
     
     public static void infoBox(String infoMessage, String titleBar) {

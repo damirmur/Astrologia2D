@@ -23,7 +23,6 @@ public class Cosmogram {
 
     public Cosmogram() {
         this.dt = LocalDateTime.now();
-//        this.dt = LocalDateTime.now();
         this.pnumbers=Setting.pl_conf;
         this.points = new Point[Setting.pl_conf.length];
         CalcPoint();
@@ -77,7 +76,6 @@ public class Cosmogram {
     private void CalcPoint() {
         SwissEph sw = new SwissEph();
         SweDate sd = new SweDate();
-        SwissData swed = new SwissData();
         StringBuffer serr = new StringBuffer();
         double jut = dt.getHour()+dt.getMinute()/60.0+dt.getSecond()/3600;
         double tjd, te, x2[] = new double[6];

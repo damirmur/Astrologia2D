@@ -5,6 +5,7 @@
  */
 package astro;
 
+import java.awt.Color;
 import java.util.Locale;
 import java.time.LocalDateTime;
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
  * @author Admin
  */
 public class Setting {
-
+    public static Color c_green=new Color(0,127,70);
     //number planet in SweConst
     public static int[] pl_conf = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 57};
     public static Locale locale_ru = new Locale("ru");
@@ -30,8 +31,6 @@ public class Setting {
     public static int orbNat = 5;
     public static int orbTransit = 1;
 
-    public static char houseSystem = 'P';
-    public static String zodiac = "tropical";
 
 //    public static        
     public static LocalDateTime ldt = LocalDateTime.of(1971, 11, 20, 0, 43, 0, 0);
@@ -156,4 +155,11 @@ public class Setting {
     STRESS,
     MATCH
   }
+    public static char houseSystem = 'P';
+    public static String zodiac = "tropical";
+    public static enum TopCards{
+    ASC,
+    OVEN}
+    public static TopCards topcards=TopCards.ASC;
+
 }
