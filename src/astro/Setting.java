@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
  * @author Admin
  */
 public class Setting {
+    public static String afname="/Astro.ttf";
     public static Color c_green=new Color(0,127,70);
     //number planet in SweConst
     public static int[] pl_conf = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 57};
