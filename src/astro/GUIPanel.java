@@ -78,6 +78,7 @@ public class GUIPanel extends javax.swing.JPanel {
     private static List<arr_s_asp> line_s_asp = new ArrayList<arr_s_asp>();
     private static List<arr_h> line_h = new ArrayList<arr_h>();
     private static List<arr_p_pl> line_p_pl = new ArrayList<arr_p_pl>();
+    private static List<JLabel> labels_plDeg = new ArrayList<JLabel>();
     private static List<JLabel> labels_p = new ArrayList<JLabel>();
     private static List<JLabel> labels_pl = new ArrayList<JLabel>();
     private static List<JLabel> labels_sasp = new ArrayList<JLabel>();
@@ -90,13 +91,14 @@ public class GUIPanel extends javax.swing.JPanel {
     int r_out_z = r_zod_sym + 20;
     int r_h = r_out_z + 20;
     int r_in_z = r_zod_sym - 20;
-    int r_in_p = r_in_z - 100;
-    int r_in_p2 = r_in_z - 50;
+    int r_in_p = r_in_z - 90;
+    int r_in_p2 = r_in_p + 10;
     Color c_background = Color.WHITE;
     Color c_foreground = this.getBackground();
     Color c_info = new Color(0, 110, 255);
 
     Font afont = null;
+    Font font = null;
     Image zod_img;
     BufferedImage pl_img;
     BufferedImage p_img;
@@ -109,7 +111,10 @@ public class GUIPanel extends javax.swing.JPanel {
 //        Font astr_f=new Font("ASTRO-Z",0,12);
 
     public GUIPanel() {
+        this.color_z = Setting.color_zod();
+        this.setPreferredSize(new Dimension(600, 600));
         String fName = Setting.afname;
+        font = this.getFont();
         try {
             InputStream is = GUIPanel.class.getResourceAsStream(fName);
             afont = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -118,9 +123,8 @@ public class GUIPanel extends javax.swing.JPanel {
             System.err.println((new StringBuilder(String.valueOf(fName))).append(" not loaded.  Using serif font.").toString());
             afont = new Font("serif", 0, 24);
         }
-
-        this.color_z = Setting.color_zod();
-        this.setPreferredSize(new Dimension(600, 600));
+//        this.setFont(afont.deriveFont(18F));
+//this.getParent()
         try {
             this.zod_img = ImageIO.read(getClass().getClassLoader().getResource(Setting.fileZodiac));
         } catch (IOException ex) {
@@ -161,7 +165,9 @@ public class GUIPanel extends javax.swing.JPanel {
         lbl.setSize(a, a);
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
         lbl.setIcon(p_icon);
+        lbl.setFont(afont.deriveFont(23F));
         lbl.setToolTipText(p.getSwe_name() + " " + p.getNote());
+//        lbl.sett
         lbl.setVisible(true);
         labels_p.add(lbl);
         return lbl;
@@ -169,45 +175,8 @@ public class GUIPanel extends javax.swing.JPanel {
 
     private String afontPl(int numPl) {
         String a = "";
-        switch (numPl) {
-            case 0:
-                a = "Q";
-                break;
-            case 1:
-                a = "R";
-                break;
-            case 2:
-                a = "S";
-                break;
-            case 3:
-                a = "T";
-                break;
-            case 4:
-                a = "U";
-                break;
-            case 5:
-                a = "V";
-                break;
-            case 6:
-                a = "W";
-                break;
-            case 7:
-                a = "X";
-                break;
-            case 8:
-                a = "Y";
-                break;
-            case 9:
-                a = "Z";
-                break;
-            case 11:
-                a = "<";
-                break;
-            case 15:
-                a = "t";
-                break;
-            default:
-                a = "";
+        if (Setting.pl_afont.containsKey(numPl)) {
+            a = Setting.pl_afont.get(numPl);
         }
         return a;
     }
@@ -216,12 +185,15 @@ public class GUIPanel extends javax.swing.JPanel {
         JLabel lbl = new JLabel(p.getSwe_name());
         lbl.setForeground(c);
         lbl.setLocation(x, y);
-        lbl.setSize(size_pict, size_pict);
+        lbl.setSize(size_pict + 2, size_pict);
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
         if (afontPl(p.getSwe_n()) != "") {
             lbl.setForeground(Color.BLACK);
             lbl.setFont(afont.deriveFont(23F));
             lbl.setText(afontPl(p.getSwe_n()));
+            if (p.getRetro()) {
+                lbl.setText(afontPl(p.getSwe_n()) + "N");
+            }
         } else {
             lbl.setIcon(imgPlanet(p.getSwe_n()));
             lbl.setText(p.getSwe_name());
@@ -232,6 +204,20 @@ public class GUIPanel extends javax.swing.JPanel {
         return lbl;
     }
 
+    private JLabel createLPointPlDeg(Point p, Color c, int x, int y) {
+        int size = 12;
+        JLabel lbl = new JLabel(p.getAfontNote());
+        lbl.setForeground(Color.BLACK);
+        lbl.setLocation(x, y);
+        lbl.setFont(afont.deriveFont((size + 2.0F)));
+        lbl.setSize(3 * (size), size);
+        lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        lbl.setToolTipText(p.getSwe_name() + " " + p.getNote());
+        lbl.setVisible(true);
+        labels_plDeg.add(lbl);
+        return lbl;
+    }
+
     private void createAspLabel() {
         JLabel lbl = new JLabel("");
         lbl.setForeground(c_info);
@@ -239,11 +225,11 @@ public class GUIPanel extends javax.swing.JPanel {
 //        lbl.setBackground(Color.BLACK);
         lbl.setFont(afont.deriveFont(18F));
 //        lbl.setText("abcdefghijklnmopqrstuvwxyz".toUpperCase());
-        lbl.setText("<>?~@#$%^&*()_+|-=");
+        lbl.setText("QRW");
         lbl.setLocation(5, 5);
-        lbl.setSize(500, 20);
+        lbl.setSize(500, 60);
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        lbl.setToolTipText("Interactive Aspect");
+        lbl.setToolTipText("<html>" + afont.getFontName() + "<br>lines</html>");
         lbl.setVisible(true);
         labels_sasp.add(lbl);
         this.add(lbl);
@@ -294,6 +280,11 @@ public class GUIPanel extends javax.swing.JPanel {
             JLabel label = labels_p.remove(index);
             this.remove(label);
         }
+        while (labels_plDeg.size() > 0) {
+            int index = labels_plDeg.size() - 1;
+            JLabel label = labels_plDeg.remove(index);
+            this.remove(label);
+        }
         while (line_p_pl.size() > 0) {
             int index = line_p_pl.size() - 1;
             arr_p_pl arr = line_p_pl.remove(index);
@@ -314,6 +305,9 @@ public class GUIPanel extends javax.swing.JPanel {
             xp = c_blank[0] + (int) Math.round(-Math.cos(ad) * (r_in_p + size_pict) - c_size_pict);
             yp = c_blank[1] + (int) Math.round(Math.sin(ad) * (r_in_p + size_pict) - c_size_pict);
             this.add(createLPointPl(p, c_info, xp, yp));
+            if (Setting.viewDeg) {
+                this.add(createLPointPlDeg(p, c_info, xp + size_pict, yp));
+            };
         }
     }
 
@@ -325,7 +319,13 @@ public class GUIPanel extends javax.swing.JPanel {
             xp1 = c_blank[0] + (int) Math.round(-Math.cos(ad) * (r_in_p + size_pict / 2 * ((p.getPosR() + 1) * 2))) - c_size_pict;
             yp1 = c_blank[1] + (int) Math.round(Math.sin(ad) * (r_in_p + size_pict / 2 * ((p.getPosR() + 1) * 2))) - c_size_pict;
             this.add(createLPointPl(p.getPl(), c_info, xp1, yp1));
+            if (Setting.viewDeg) {
+                this.add(createLPointPlDeg(p.getPl(), c_info, xp1 + size_pict, yp1 + size_pict / 2));
+            };
         }
+        createP_Pl(aPPM);
+        createS_ASP(aPPM);
+
     }
 
     private void createS_ASP(PointPosMap[] aPPM) {
@@ -396,7 +396,7 @@ public class GUIPanel extends javax.swing.JPanel {
         double ad;
         int xp1, yp1;
         int xp2, yp2;
-        for (int i = 1; i < hs.h.length; i++) {
+        for (int i = 0; i < hs.h.length; i++) {
             ad = Math.toRadians(hs.h[i] - startGoroskop);
             xp1 = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_in_p);
             yp1 = c_blank[1] + (int) Math.round(Math.sin(ad) * r_in_p);
@@ -408,30 +408,37 @@ public class GUIPanel extends javax.swing.JPanel {
 
     private void imgHouse(Graphics2D graphics2d) {
         if (line_h.size() > 0) {
+
             for (int i = 0; i < line_h.size(); i++) {
                 switch (i) {
                     case 0:
+                        graphics2d.setFont(afont.deriveFont(18.0F));
                         graphics2d.setColor(Color.RED);
                         graphics2d.setStroke(new BasicStroke(2.0f));
                         break;
                     case 3:
+                        graphics2d.setFont(afont.deriveFont(18.0F));
                         graphics2d.setColor(Color.BLACK);
                         graphics2d.setStroke(new BasicStroke(2.0f));
                         break;
                     case 6:
+                        graphics2d.setFont(font.deriveFont(12.0F));
                         graphics2d.setColor(Color.BLUE);
                         graphics2d.setStroke(new BasicStroke(2.0f));
                         break;
                     case 9:
+                        graphics2d.setFont(afont.deriveFont(18.0F));
                         graphics2d.setColor(c_green);
                         graphics2d.setStroke(new BasicStroke(2.0f));
                         break;
                     default:
+                        graphics2d.setFont(font.deriveFont(12.0F));
                         graphics2d.setColor(Color.BLACK);
                         graphics2d.setStroke(new BasicStroke(1.0f));
                         break;
                 }
                 graphics2d.drawLine(line_h.get(i).x1, line_h.get(i).y1, line_h.get(i).x2, line_h.get(i).y2);
+                graphics2d.drawString(Setting.house_afont.get(i), line_h.get(i).x2, line_h.get(i).y2);
 
             }
         }
@@ -479,8 +486,6 @@ public class GUIPanel extends javax.swing.JPanel {
     private void circle_pl(Point[] ps) {
         PointPosMap[] aPPM = PointPosMap.sortD_pl(ps, region_pl());
         position_pl(aPPM);
-        createP_Pl(aPPM);
-        createS_ASP(aPPM);
         //            CreateAsp();
 
     }
@@ -518,7 +523,11 @@ public class GUIPanel extends javax.swing.JPanel {
 
     }
 
-    public void paintGoroskop(Point[] ps, Houses hs) {
+    public void paintGoroscop(Goroscop gs) {
+        paintGorosсop(gs.getPoints(), gs.getHouse());
+    }
+
+    public void paintGorosсop(Point[] ps, Houses hs) {
         del_img();
         createAspLabel();
         if (hs != null) {
@@ -552,12 +561,10 @@ public class GUIPanel extends javax.swing.JPanel {
 
     void paintZodiac(Graphics2D graphics2d) {
 
-//        System.out.println(astr_f.getStyle());
-        char[] sym={'A','B','C','D','E','F','G','H','I','J','K','L'};
-        char[] sym_num=new char[1];
         graphics2d.setColor(c_background);
         //blank
         graphics2d.fillRect(0, 0, 2 * c_blank[0], 2 * c_blank[1]);
+        char[] sym_num = new char[1];
 
         int a = 180;
         double ad;
@@ -566,16 +573,14 @@ public class GUIPanel extends javax.swing.JPanel {
             graphics2d.setColor(new Color(color_z[i][0], color_z[i][1], color_z[i][2]));
             graphics2d.fillArc(c_blank[0] - r_out_z, c_blank[1] - r_out_z, 2 * r_out_z, 2 * r_out_z, (int) (a + i * 30 - startGoroskop), 30);
             graphics2d.setColor(c_info);
-            graphics2d.setFont(astr_f);
             ad = Math.toRadians(i * 30 + 15 - startGoroskop);
             xz = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_zod_sym);
             yz = c_blank[1] + (int) Math.round(Math.sin(ad) * r_zod_sym);
             graphics2d.setFont(afont.deriveFont(Font.BOLD, 20.0F));
-//  Хотелось бы выводить астрологическим шрифтом
-                sym_num[0]=sym[i];
-                graphics2d.drawChars(sym_num, 0, sym_num.length, xz-10, yz+10);
-//                graphics2d.drawString(astro.Setting.zodName[i], xz, yz);
-//            graphics2d.drawImage(zod_img, xz - 10, yz - 10, xz + 10, yz + 10, i * 40, 0, i * 40 + 40, 40, null);
+            sym_num[0] = Setting.zod_afont.get(i);
+            graphics2d.drawChars(sym_num, 0, sym_num.length, xz - 10, yz + 10);
+//          graphics2d.drawString(astro.Setting.zodName[i], xz, yz);
+//          graphics2d.drawImage(zod_img, xz - 10, yz - 10, xz + 10, yz + 10, i * 40, 0, i * 40 + 40, 40, null);
             graphics2d.setColor(c_info);
             ad = Math.toRadians(i * 30 - startGoroskop);
             xz = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_out_z);
@@ -583,11 +588,12 @@ public class GUIPanel extends javax.swing.JPanel {
             graphics2d.drawLine(xz, yz, c_blank[0], c_blank[1]);
         }
         graphics2d.setColor(c_background);
-        graphics2d.fillOval(c_blank[0] - r_in_z, c_blank[1] - r_in_z, 2 * r_in_z, 2 * r_in_z);
+        graphics2d.fillOval(c_blank[0] - r_in_p, c_blank[1] - r_in_p, 2 * r_in_p, 2 * r_in_p);
+//        graphics2d.fillOval(c_blank[0] - r_in_z, c_blank[1] - r_in_z, 2 * r_in_z, 2 * r_in_z);
         graphics2d.drawImage(iconRezive(earth_img, 30).getImage(), c_blank[0] - 15, c_blank[1] - 15, null);
         graphics2d.setColor(c_info);
 
-        graphics2d.drawOval(c_blank[0] - r_in_z, c_blank[1] - r_in_z, 2 * r_in_z, 2 * r_in_z);
+//        graphics2d.drawOval(c_blank[0] - r_in_z, c_blank[1] - r_in_z, 2 * r_in_z, 2 * r_in_z);
         graphics2d.drawOval(c_blank[0] - r_out_z, c_blank[1] - r_out_z, 2 * r_out_z, 2 * r_out_z);
         TypeCards tC = Setting.typecards;
         switch (tC) {

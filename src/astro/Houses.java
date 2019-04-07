@@ -14,25 +14,51 @@ import swisseph.*;
  */
 public class Houses {
 
+    public void set(double[] cusps, char houseSystem) {
+        this.houseSystem = houseSystem;
+        if (this.h == null) {
+            this.h = new double[cusps.length - 1];
+        }
+        if (cusps.length != this.h.length) {
+            this.h = new double[cusps.length - 1];
+        }
+        for (int i = 1; i < cusps.length; i++) {
+            this.h[i - 1] = cusps[i];
+        }
+    }
+
     double h[];
     char houseSystem;
 
     public double getAsc() {
         double asc = 0;
         if (h != null) {
-            asc = h[1];
+            asc = h[0];
         }
         return asc;
     }
 
-    public Houses(double[] cusps) {
-        this.houseSystem = Setting.houseSystem;
-        this.h = cusps;
-    }
-
     public Houses(double[] cusps, char houseSystem) {
         this.houseSystem = houseSystem;
-        this.h = cusps;
+        if (this.h == null) {
+            this.h = new double[cusps.length - 1];
+        }
+        if (cusps.length != this.h.length) {
+            this.h = new double[cusps.length - 1];
+        }
+        for (int i = 1; i < cusps.length; i++) {
+            this.h[i - 1] = cusps[i];
+        }
+    }
+
+    public Houses(double[] cusps) {
+        this.houseSystem = Setting.houseSystem;
+        if (cusps.length != this.h.length) {
+            this.h = new double[cusps.length - 1];
+        }
+        for (int i = 1; i < h.length; i++) {
+            this.h[i - 1] = cusps[i];
+        }
     }
 
     public Houses(char houseSystem) {
@@ -76,7 +102,7 @@ public class Houses {
         if (result == -1) {
             throw new SwissephException(sd.getJulDay(), "Calculation was not possible due to nearness to the polar circle in Koch or Placidus house system or when requesting Gauquelin sectors. Calculation automatically switched to Porphyry house calculation method in this case");
         } else {
-            return new Houses(cusps);
+            return new Houses(cusps, houseSys);
         }
 
     }

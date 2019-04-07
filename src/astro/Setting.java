@@ -8,14 +8,14 @@ package astro;
 import java.awt.Color;
 import java.util.Locale;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author Admin
  */
 public class Setting {
-    public static String afname="/Astro.ttf";
-    public static Color c_green=new Color(0,127,70);
     //number planet in SweConst
     public static int[] pl_conf = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 57};
     public static Locale locale_ru = new Locale("ru");
@@ -45,60 +45,6 @@ public class Setting {
     public static String fileZodiac="res/zodiac.gif";
     public static String filePlanet="res/sun_hiro_black.png";
     public static String fileEarth="res/earth.png";
-//размещение планет на карте:
-//0 - неотсортировано; 1 - циркулярно;2 - радиус-вектор;    
-    public static int allocation2D = 1;
-    static int[][] color_zod( ) {
-        int[][] clr_z = new int[12][3];
-        clr_z[0][0] = 255;
-        clr_z[0][1] = 175;
-        clr_z[0][2] = 175;
-
-        clr_z[1][0] = 255;
-        clr_z[1][1] = 255;
-        clr_z[1][2] = 200;
-
-        clr_z[2][0] = 225;
-        clr_z[2][1] = 255;
-        clr_z[2][2] = 255;
-
-        clr_z[3][0] = 175;
-        clr_z[3][1] = 255;
-        clr_z[3][2] = 175;
-
-        clr_z[4][0] = 255;
-        clr_z[4][1] = 200;
-        clr_z[4][2] = 200;
-
-        clr_z[5][0] = 255;
-        clr_z[5][1] = 255;
-        clr_z[5][2] = 225;
-
-        clr_z[6][0] = 175;
-        clr_z[6][1] = 255;
-        clr_z[6][2] = 255;
-
-        clr_z[7][0] = 200;
-        clr_z[7][1] = 255;
-        clr_z[7][2] = 200;
-
-        clr_z[8][0] = 255;
-        clr_z[8][1] = 225;
-        clr_z[8][2] = 225;
-
-        clr_z[9][0] = 255;
-        clr_z[9][1] = 255;
-        clr_z[9][2] = 175;
-
-        clr_z[10][0] = 200;
-        clr_z[10][1] = 255;
-        clr_z[10][2] = 255;
-
-        clr_z[11][0] = 225;
-        clr_z[11][1] = 255;
-        clr_z[11][2] = 225;
-        return clr_z;
-    }
 
 //            SUN = 0;
 //            MOON = 1;
@@ -162,5 +108,106 @@ public class Setting {
     ASC,
     OVEN}
     public static TopCards topcards=TopCards.ASC;
+    //GUI
+    public static String afname="/Astro.ttf";
+    public static Map<Integer, String> pl_afont = new HashMap<Integer, String>(){{
+    put(0,"Q");
+    put(1,"R");
+    put(2,"S");
+    put(3,"T");
+    put(4,"U");
+    put(5,"V");
+    put(6,"W");
+    put(7,"X");
+    put(8,"Y");
+    put(9,"Z");
+    put(11,"<");
+    put(12,"‚");
+    put(15,"t");
+    }};
+    public static Map<Integer, Character> zod_afont = new HashMap<Integer, Character>(){{
+    put(0,'A');
+    put(1,'B');
+    put(2,'C');
+    put(3,'D');
+    put(4,'E');
+    put(5,'F');
+    put(6,'G');
+    put(7,'H');
+    put(8,'I');
+    put(9,'J');
+    put(10,'K');
+    put(11,'L');
+    }};
+    public static Map<Integer, String> house_afont = new HashMap<Integer, String>(){{
+    put(0,"a");
+    put(1,"II");
+    put(2,"III");
+    put(3,"c");
+    put(4,"V");
+    put(5,"VI");
+    put(6,"VII");
+    put(7,"VIII");
+    put(8,"IX");
+    put(9,"b");
+    put(10,"XI ");
+    put(11,"XII ");
+    }};
+    public static Color c_green=new Color(0,127,70);
+//размещение планет на карте:
+//0 - неотсортировано; 1 - циркулярно;2 - радиус-вектор;    
+    public static int allocation2D = 2;
+    static int[][] color_zod( ) {
+        int[][] clr_z = new int[12][3];
+        clr_z[0][0] = 255;
+        clr_z[0][1] = 175;
+        clr_z[0][2] = 175;
+
+        clr_z[1][0] = 255;
+        clr_z[1][1] = 255;
+        clr_z[1][2] = 200;
+
+        clr_z[2][0] = 225;
+        clr_z[2][1] = 255;
+        clr_z[2][2] = 255;
+
+        clr_z[3][0] = 175;
+        clr_z[3][1] = 255;
+        clr_z[3][2] = 175;
+
+        clr_z[4][0] = 255;
+        clr_z[4][1] = 200;
+        clr_z[4][2] = 200;
+
+        clr_z[5][0] = 255;
+        clr_z[5][1] = 255;
+        clr_z[5][2] = 225;
+
+        clr_z[6][0] = 175;
+        clr_z[6][1] = 255;
+        clr_z[6][2] = 255;
+
+        clr_z[7][0] = 200;
+        clr_z[7][1] = 255;
+        clr_z[7][2] = 200;
+
+        clr_z[8][0] = 255;
+        clr_z[8][1] = 225;
+        clr_z[8][2] = 225;
+
+        clr_z[9][0] = 255;
+        clr_z[9][1] = 255;
+        clr_z[9][2] = 175;
+
+        clr_z[10][0] = 200;
+        clr_z[10][1] = 255;
+        clr_z[10][2] = 255;
+
+        clr_z[11][0] = 225;
+        clr_z[11][1] = 255;
+        clr_z[11][2] = 225;
+        return clr_z;
+    }
+    static boolean viewDeg=true;
 
 }

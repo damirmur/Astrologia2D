@@ -11,6 +11,7 @@ import swisseph.SweConst;
 import swisseph.SweDate;
 import swisseph.SwissData;
 import swisseph.SwissEph;
+import swisseph.SwissephException;
 
 /**
  *
@@ -23,27 +24,56 @@ public class Goroscop {
     private int[] pnumbers;
     private Aspect[] aspects;
     private Houses house;
+    private char houseSystem;
+    private double lon;
+    private double lat;
 
     public Goroscop() {
         this.dt = LocalDateTime.now();
         this.pnumbers = Setting.pl_conf;
         this.points = new Point[Setting.pl_conf.length];
         this.house = new Houses(Setting.houseSystem);
-        CalcPoint();
+        this.lat = Setting.lat;
+        this.lon = Setting.lon;
+        this.houseSystem = Setting.houseSystem;
+        CalcPoint(this.dt, this.pnumbers, this.points, this.houseSystem, this.lat, this.lon, this.house);
         this.aspects = CalcAspect.SingleCardAspect(points, Setting.aspMajor, Setting.orbNat);
     }
 
-    public Goroscop( LocalDateTime dt) {
+    public Goroscop(LocalDateTime dt) {
         this.dt = dt;
         this.pnumbers = Setting.pl_conf;
         this.points = new Point[Setting.pl_conf.length];
         this.house = new Houses(Setting.houseSystem);
-        CalcPoint();
+        this.lat = Setting.lat;
+        this.lon = Setting.lon;
+        this.houseSystem = Setting.houseSystem;
+        CalcPoint(this.dt, this.pnumbers, this.points, this.houseSystem, this.lat, this.lon, this.house);
         this.aspects = CalcAspect.SingleCardAspect(points, Setting.aspMajor, Setting.orbNat);
     }
 
-    public Goroscop(Houses house, LocalDateTime dt, int[] pnumbers) {
+    public Goroscop(LocalDateTime dt, Houses house, int[] pnumbers) {
         this.house = house;
+        this.dt = dt;
+        this.pnumbers = pnumbers;
+        this.points = new Point[pnumbers.length];
+        this.lat = Setting.lat;
+        this.lon = Setting.lon;
+        this.houseSystem = Setting.houseSystem;
+        CalcPoint(this.dt, this.pnumbers, this.points, this.houseSystem, this.lat, this.lon, this.house);
+        this.aspects = CalcAspect.SingleCardAspect(points, Setting.aspMajor, Setting.orbNat);
+    }
+
+    public Goroscop(LocalDateTime dt, int[] pnumbers, char houseSystem, double lat, double lon) {
+        this.house = house;
+        this.dt = dt;
+        this.pnumbers = pnumbers;
+        this.points = new Point[pnumbers.length];
+        this.lat = lat;
+        this.lon = lon;
+        this.houseSystem = houseSystem;
+        CalcPoint(this.dt, this.pnumbers, this.points, this.houseSystem, this.lat, this.lon, this.house);
+        this.aspects = CalcAspect.SingleCardAspect(points, Setting.aspMajor, Setting.orbNat);
     }
 
     public Houses getHouse() {
@@ -70,7 +100,7 @@ public class Goroscop {
         return aspects;
     }
 
-    private void CalcPoint() {
+    private static void CalcPoint(LocalDateTime dt, int[] pnumbers, Point[] points, char hs, double lat, double lon, Houses house) {
         SwissEph sw = new SwissEph();
         SweDate sd = new SweDate();
         SwissData swed = new SwissData();
@@ -92,29 +122,15 @@ public class Goroscop {
             }
             points[i] = new Point(pnumbers[i], x2);
         }
-        if (this.house != null) {
+        if (house != null) {
             double[] cusps = new double[13];
             double[] acsc = new double[10];
-            int result = sw.swe_houses(tjd, 0, Setting.lat, Setting.lon, this.house.houseSystem, cusps, acsc);
-            System.out.println("Cusp" + cusps[0] + "::" + cusps[1]);
-           System.out.println("Cusp" + cusps[2] + "::" + cusps[3]);
-           System.out.println("Cusp" + cusps[4] + "::" + cusps[5]);
-           System.out.println("Cusp" + cusps[6] + "::" + cusps[7]);
-           System.out.println("Cusp" + cusps[8] + "::" + cusps[9]);
-           System.out.println("Cusp" + cusps[10] + "::" + cusps[11]);
-           System.out.println("Cusp" + cusps[12]);
-            System.out.print("Ascendant :");
-            System.out.println(acsc[0]);
-            System.out.println(acsc[1]);
-            System.out.println(acsc[2]);
-            System.out.println(acsc[3]);
-            System.out.println(acsc[4]);
-            System.out.println(acsc[5]);
-            System.out.println(acsc[6]);
-            System.out.println(acsc[7]);
-            System.out.println(acsc[8]);
-            System.out.println(acsc[9]);
-
+            int result = sw.swe_houses(tjd, 0, lat, lon, hs, cusps, acsc);
+            if (result == -1) {
+                throw new SwissephException(sd.getJulDay(), "Calculation was not possible due to nearness to the polar circle in Koch or Placidus house system or when requesting Gauquelin sectors. Calculation automatically switched to Porphyry house calculation method in this case");
+            } else {
+                house.set(cusps, hs);
+            }
         }
 
     }

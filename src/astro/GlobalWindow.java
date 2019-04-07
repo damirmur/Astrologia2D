@@ -331,25 +331,26 @@ public class GlobalWindow extends javax.swing.JFrame {
 
         jTextArea1.setText("");
 //            Goroscop gst = new Goroscop(dt);
-        Cosmogram cs = new Cosmogram(dt);
+//        Cosmogram cs = new Cosmogram(dt);
+        Goroscop gs = new Goroscop(dt);
         jTextArea1.append(String.format(Setting.locale_ru, dt.toString()) + "\n");
         jTextArea1.append("planet     \tpos.\n");
-        for (int i = 0; i < cs.getPoints().length; i++) {
-            jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\n", cs.getPoints()[i].getSwe_name(), cs.getPoints()[i].getNote()));
+        for (int i = 0; i < gs.getPoints().length; i++) {
+            jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\n", gs.getPoints()[i].getSwe_name(), gs.getPoints()[i].getAfontNote()));
         }
         jTextArea1.append("aspect     \tpos.\n");
-        for (int i = 0; i < cs.getAspects().length; i++) {
-            jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\t%10s\n", cs.getAspects()[i].getAsp(), cs.getAspects()[i].getP()[0].getSwe_name(), cs.getAspects()[i].getP()[1].getSwe_name()));
+        for (int i = 0; i < gs.getAspects().length; i++) {
+            jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\t%10s\n", gs.getAspects()[i].getAsp(), gs.getAspects()[i].getP()[0].getSwe_name(), gs.getAspects()[i].getP()[1].getSwe_name()));
         }
         if (jCheckBox1.isSelected()) {
             Cosmogram cst = new Cosmogram(dateTimePicker2.getDateTimeStrict());
             jTextArea1.append(String.format(Setting.locale_ru, cst.getDt().toString()) + "\n");
             jTextArea1.append("planet     \tpos.\n");
             for (int i = 0; i < cst.getPoints().length; i++) {
-                jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\n", cst.getPoints()[i].getSwe_name(), cst.getPoints()[i].getNote()));
+                jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\n", cst.getPoints()[i].getSwe_name(), cst.getPoints()[i].getAfontNote()));
             }
             jTextArea1.append("aspects     \tpl1.\tpl2.\n");
-            Aspect[] tasp = CalcAspect.DualCardsAspect(cs.getPoints(), cst.getPoints(), Setting.aspMajor, Setting.orbNat);
+            Aspect[] tasp = CalcAspect.DualCardsAspect(gs.getPoints(), cst.getPoints(), Setting.aspMajor, Setting.orbNat);
             for (Aspect asp : tasp) {
                 jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\t%10s\n", asp.getAsp(), asp.getP()[0].getSwe_name(), asp.getP()[1].getSwe_name()));
             }
@@ -371,7 +372,7 @@ public class GlobalWindow extends javax.swing.JFrame {
             CalcEvent.PeriodAsp(perldp1.getDate(), perldp2.getDate(), Integer.parseInt(interval.getText()), ps, as);
         }
 //        gUIPanel1.paintCosmogram(cs.getPoints());
-        gUIPanel1.paintGoroskop(cs.getPoints(), Houses.houses_position(dt, Setting.lon, Setting.lat, Setting.houseSystem));
+        gUIPanel1.paintGoroscop(gs);
     }//GEN-LAST:event_swe_start
     
     public static void infoBox(String infoMessage, String titleBar) {

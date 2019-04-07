@@ -7,6 +7,7 @@ package astro;
 
 import java.awt.Container;
 import java.awt.Font;
+import java.util.*;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
@@ -15,7 +16,11 @@ import javax.swing.JTextArea;
 
 public class TestFonts
 {
-
+        HashMap<String, String> myHashMap = new HashMap<String, String>(){{
+        put("Basil", "07.12.1987");
+        myHashMap.put("Kate", "12.10.1971");
+        myHashMap.put("Lena", "11.01.1991");
+        }};
             public TestFonts()
             {
             }

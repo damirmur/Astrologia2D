@@ -34,7 +34,7 @@ public class Point {
     public int getSwe_n() {
         return swe_n;
     }
-    public String getSwe_name(int i) {
+    public static String getSwe_name(int i) {
           SwissEph sw = new SwissEph();
 
         return sw.swe_get_planet_name(i);
@@ -58,16 +58,30 @@ public class Point {
     
     public String getNote() {
         int num=((int)this.xx[0])/30;
-        int x=(int)this.xx[0]-num*30;
+        int deg=(int)this.xx[0]-num*30;
         double y=(this.xx[0]-Math.floor(this.xx[0]));
-        int gr=(int)Math.round(y*60);
-        String note=((x<10)?(" "):(""))+Integer.toString(x);
+        int min=(int)Math.round(y*60);
+        String note=((deg<10)?(" "):(""))+Integer.toString(deg);
         note=note+zodName[num];
-        note=note+Integer.toString(gr);
+        note=note+Integer.toString(min);
         note=note+((this.xx[3]<0)?("R"):(" "));
         return note;
     }
-
+    public String getAfontNote() {
+        int num=((int)this.xx[0])/30;
+        int deg=(int)this.xx[0]-num*30;
+        double y=(this.xx[0]-Math.floor(this.xx[0]));
+        int min=(int)Math.round(y*60);
+        String note=((deg<10)?(" "):(""))+Integer.toString(deg);
+        note=note+Setting.zod_afont.get(num);
+        note=note+Integer.toString(min);
+//        note=note+((this.xx[3]<0)?("R"):(" "));
+        return note;
+    }
+    public boolean getRetro(){
+    boolean r=((this.xx[3]<0)?(true):(false));
+    return r;
+    }
     /**
      * @param swe_n the swe_n to set
      */
