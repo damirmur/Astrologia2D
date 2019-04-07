@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package astro;
+package util;
+import astro.Setting;
 import java.awt.Font;
 import java.io.PrintStream;
 import java.util.Hashtable;
@@ -40,7 +41,7 @@ public class AstrologyFonts
             }
 
             private String names[] = {
-/*  33*/        "gezodiac.ttf", "syastro.ttf","Astro.ttf","Astronomic Signs St.ttf"
+/*  33*/        Setting.a2fname
             };
             private static Hashtable cache;
 }

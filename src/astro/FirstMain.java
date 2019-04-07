@@ -6,8 +6,6 @@
 package astro;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import swisseph.*;
 
 /**
@@ -15,6 +13,7 @@ import swisseph.*;
  * @author Admin
  */
 public class FirstMain {
+
 
     SwissEph sw = new SwissEph();
 
@@ -28,10 +27,12 @@ public class FirstMain {
         String path = "";
         SwissEph sw = new SwissEph();
         sw.swe_set_ephe_path(path);
-        if (args.length == 0) {
+        if (args.length != 0) {
+        ;}
+        else {
             GlobalWindow glW = new GlobalWindow();
             glW.setVisible(true);
-        } else {;
+
         };
 
     }

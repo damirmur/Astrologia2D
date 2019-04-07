@@ -114,7 +114,7 @@ public class Setting {
     OVEN}
     public static TopCards topcards=TopCards.ASC;
     //GUI
-    public static String a2fname="/Astrologia2D.ttf";
+    public static String a2fname="Astrologia2D.ttf";
     public static Map<String, String> sym_a2font = new HashMap<String, String>(){{
     put("r",new String(new int[] {917959}, 0, 1));
     put("d",new String(new int[] {917960}, 0, 1));
@@ -165,6 +165,26 @@ public class Setting {
     put(9,new String(new int[] {917972}, 0, 1));
     put(10,new String(new int[] {917973}, 0, 1));
     put(11,new String(new int[] {917974}, 0, 1));
+    }};
+
+    public static Map<Integer, String> aspect_a2font = new HashMap<Integer, String>(){{
+    put(0,new String(new int[] {917915}, 0, 1));
+    //put(24,new String(new int[] {917920}, 0, 1));
+    put(30,new String(new int[] {917921}, 0, 1));
+    put(36,new String(new int[] {917922}, 0, 1));
+    put(40,new String(new int[] {917923}, 0, 1));
+    put(45,new String(new int[] {917924}, 0, 1));
+    put(60,new String(new int[] {917916}, 0, 1));
+    put(72,new String(new int[] {917925}, 0, 1));
+    put(80,new String(new int[] {917926}, 0, 1));
+    put(90,new String(new int[] {917917}, 0, 1));
+    put(108,new String(new int[] {917927}, 0, 1));
+    put(120,new String(new int[] {917918}, 0, 1));
+    put(135,new String(new int[] {917928}, 0, 1));
+    put(144,new String(new int[] {917929}, 0, 1));
+    put(150,new String(new int[] {917930}, 0, 1));
+    put(160,new String(new int[] {917931}, 0, 1));
+    put(180,new String(new int[] {917919}, 0, 1));
     }};
     public static Color c_green=new Color(0,127,70);
 //размещение планет на карте:

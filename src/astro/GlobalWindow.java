@@ -10,8 +10,9 @@ import javax.swing.JOptionPane;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import astro.Calc.CalcAspect;
 import astro.Calc.CalcEvent;
+import java.awt.Font;
 import javax.swing.JFrame;
-
+import util.AstrologyFonts;
 
 /**
  *
@@ -24,8 +25,11 @@ public class GlobalWindow extends javax.swing.JFrame {
     /* Creates new form MainJFrame
      */
     public GlobalWindow() {
+        new AstrologyFonts();
+        a2font = AstrologyFonts.getFont(Setting.a2fname);
         initComponents();
         pack();
+        jTextArea1.setFont(a2font.deriveFont(14F));
     }
 
     /**
@@ -52,10 +56,10 @@ public class GlobalWindow extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         label1 = new java.awt.Label();
         dateTimePicker2 = new com.github.lgooddatepicker.components.DateTimePicker();
-        jSplitPane1 = new javax.swing.JSplitPane();
+        jSplitPane2 = new javax.swing.JSplitPane();
+        jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jSlider2 = new javax.swing.JSlider();
         gUIPanel1 = new astro.GUIPanel();
@@ -203,7 +207,7 @@ public class GlobalWindow extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dateTimePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(460, Short.MAX_VALUE))
+                .addContainerGap(541, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,34 +218,32 @@ public class GlobalWindow extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jSplitPane1.setDividerSize(2);
-
-        jScrollPane1.setAlignmentX(0.0F);
-        jScrollPane1.setAlignmentY(0.0F);
-        jScrollPane1.setAutoscrolls(true);
+        jSplitPane2.setDividerSize(2);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jSplitPane1.setLeftComponent(jScrollPane1);
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 535, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
+        );
+
+        jSplitPane2.setLeftComponent(jPanel4);
 
         jSlider2.setPaintLabels(true);
         jSlider2.setName("TimeLine"); // NOI18N
         jSlider2.setToolTipText("TimeLine");
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSlider2, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
 
         javax.swing.GroupLayout gUIPanel1Layout = new javax.swing.GroupLayout(gUIPanel1);
         gUIPanel1.setLayout(gUIPanel1Layout);
@@ -251,25 +253,25 @@ public class GlobalWindow extends javax.swing.JFrame {
         );
         gUIPanel1Layout.setVerticalGroup(
             gUIPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 489, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(gUIPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSlider2, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
+            .addComponent(gUIPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gUIPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE))
+                .addComponent(gUIPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jSplitPane1.setRightComponent(jPanel4);
+        jSplitPane2.setRightComponent(jPanel5);
 
         jMenu1.setText("File");
 
@@ -296,12 +298,14 @@ public class GlobalWindow extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
-            .addComponent(jSplitPane1)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jSplitPane2)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(0, 0, 0)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,13 +313,14 @@ public class GlobalWindow extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(58, 58, 58)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSplitPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(67, 67, 67)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(604, Short.MAX_VALUE)))
+                    .addContainerGap(669, Short.MAX_VALUE)))
         );
 
         getAccessibleContext().setAccessibleName("glWinows");
@@ -330,24 +335,22 @@ public class GlobalWindow extends javax.swing.JFrame {
 //        System.out.println(sw.swe_version().toString());
 
         jTextArea1.setText("");
-//            Goroscop gst = new Goroscop(dt);
-//        Cosmogram cs = new Cosmogram(dt);
         Goroscop gs = new Goroscop(dt);
         jTextArea1.append(String.format(Setting.locale_ru, dt.toString()) + "\n");
-        jTextArea1.append("planet     \tpos.\n");
-        for (int i = 0; i < gs.getPoints().length; i++) {
-            jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\n", gs.getPoints()[i].getSwe_name(), gs.getPoints()[i].getAfontNote()));
+        jTextArea1.append("Planet natal\n");
+        for (Point point : gs.getPoints()) {
+            jTextArea1.append(String.format(Setting.locale_ru, "%5s\t%5s\n", point.getSwe_Sym() + point.getRetro_Sym(), point.getAfontNote()));
         }
-        jTextArea1.append("aspect     \tpos.\n");
-        for (int i = 0; i < gs.getAspects().length; i++) {
-            jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\t%10s\n", gs.getAspects()[i].getAsp(), gs.getAspects()[i].getP()[0].getSwe_name(), gs.getAspects()[i].getP()[1].getSwe_name()));
+        jTextArea1.append("Aspect natal\n");
+        for (Aspect aspect : gs.getAspects()) {
+            jTextArea1.append( aspect.getP()[0].getSwe_Sym()+" "+ aspect.getSym()+" "+ aspect.getP()[1].getSwe_Sym()+"\n");
         }
         if (jCheckBox1.isSelected()) {
             Cosmogram cst = new Cosmogram(dateTimePicker2.getDateTimeStrict());
             jTextArea1.append(String.format(Setting.locale_ru, cst.getDt().toString()) + "\n");
             jTextArea1.append("planet     \tpos.\n");
-            for (int i = 0; i < cst.getPoints().length; i++) {
-                jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\n", cst.getPoints()[i].getSwe_name(), cst.getPoints()[i].getAfontNote()));
+            for (Point point : cst.getPoints()) {
+                jTextArea1.append(String.format(Setting.locale_ru, "%10s\t%10s\n", point.getSwe_name(), point.getAfontNote()));
             }
             jTextArea1.append("aspects     \tpl1.\tpl2.\n");
             Aspect[] tasp = CalcAspect.DualCardsAspect(gs.getPoints(), cst.getPoints(), Setting.aspMajor, Setting.orbNat);
@@ -374,7 +377,7 @@ public class GlobalWindow extends javax.swing.JFrame {
 //        gUIPanel1.paintCosmogram(cs.getPoints());
         gUIPanel1.paintGoroscop(gs);
     }//GEN-LAST:event_swe_start
-    
+
     public static void infoBox(String infoMessage, String titleBar) {
         JOptionPane.showMessageDialog(j, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
@@ -428,8 +431,8 @@ public class GlobalWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-             GlobalWindow jj=  new GlobalWindow();
-             jj.setVisible(true);
+                GlobalWindow jj = new GlobalWindow();
+                jj.setVisible(true);
 //        jj.repaint();
             }
         });
@@ -455,7 +458,7 @@ public class GlobalWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider jSlider2;
-    private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JTextArea jTextArea1;
     private java.awt.Label label1;
     private java.awt.Label label2;
@@ -463,4 +466,6 @@ public class GlobalWindow extends javax.swing.JFrame {
     private com.github.lgooddatepicker.components.DatePicker perldp1;
     private com.github.lgooddatepicker.components.DatePicker perldp2;
     // End of variables declaration//GEN-END:variables
+    private Font a2font = null;
+
 }

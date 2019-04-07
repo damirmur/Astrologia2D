@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package astro;
+
 import static astro.Setting.zodName;
 import swisseph.*;
 
@@ -12,6 +13,7 @@ import swisseph.*;
  * @author Admin
  */
 public class Point {
+
     private int swe_n;
     private double xx[];
 
@@ -19,6 +21,7 @@ public class Point {
         this.xx = new double[6];
         this.swe_n = swe_n;
     }
+
     public Point(int swe_n, double[] xx) {
         this.xx = new double[6];
         this.swe_n = swe_n;
@@ -30,24 +33,52 @@ public class Point {
         this.xx[5] = xx[5];
     }
 
-
     public int getSwe_n() {
         return swe_n;
     }
+
     public static String getSwe_name(int i) {
-          SwissEph sw = new SwissEph();
+        SwissEph sw = new SwissEph();
 
         return sw.swe_get_planet_name(i);
     }
-    public String getSwe_name() {
-          SwissEph sw = new SwissEph();
 
-        return sw.swe_get_planet_name(swe_n);
+    public String getSwe_name() {
+        SwissEph sw = new SwissEph();
+
+        return sw.swe_get_planet_name(this.swe_n);
+    }
+
+    public static String getSwe_Sym(int i) {
+        String a = "";
+        if (Setting.pl_a2font.containsKey(i)) {
+            a = Setting.pl_a2font.get(i);
+        } else {
+            SwissEph sw = new SwissEph();
+            a = sw.swe_get_planet_name(i);
+        }
+        return a;
+    }
+    public String getSwe_Sym() {
+        String a = "";
+        if (Setting.pl_a2font.containsKey(this.swe_n)) {
+            a = Setting.pl_a2font.get(this.swe_n);
+        } else {
+            SwissEph sw = new SwissEph();
+            a = sw.swe_get_planet_name(this.swe_n);
+        }
+        return a;
+    }
+    public String getRetro_Sym() {
+        String a="  ";
+        if(this.getRetro()){a=Setting.sym_a2font.get("r");}
+        return a;
     }
 
     public double getPos() {
         return xx[0];
     }
+
     public double[] getXX() {
         return xx;
     }
@@ -55,35 +86,40 @@ public class Point {
     public double getSpeed() {
         return xx[3];
     }
-    
+
     public String getNote() {
-        int num=((int)this.xx[0])/30;
-        int deg=(int)this.xx[0]-num*30;
-        double y=(this.xx[0]-Math.floor(this.xx[0]));
-        int min=(int)Math.round(y*60);
-        String note=((deg<10)?(" "):(""))+Integer.toString(deg);
-        note=note+zodName[num];
-        note=note+Integer.toString(min);
-        note=note+((this.xx[3]<0)?("R"):(" "));
+        int num = ((int) this.xx[0]) / 30;
+        int deg = (int) this.xx[0] - num * 30;
+        double y = (this.xx[0] - Math.floor(this.xx[0]));
+        int min = (int) Math.round(y * 60);
+        String note = ((deg < 10) ? (" ") : ("")) + Integer.toString(deg);
+        note = note + zodName[num];
+        note = note + Integer.toString(min);
+        note = note + ((this.xx[3] < 0) ? ("R") : (" "));
         return note;
     }
+
     public String getAfontNote() {
         String note;
-        int num=((int)this.xx[0])/30;
-        int deg=(int)this.xx[0]-num*30;
-        double y=(this.xx[0]-Math.floor(this.xx[0]));
-        int min=(int)Math.round(y*60);
-        note=Integer.toString(deg);
-        if(deg<10){note=" "+note;}
-        note=note+Setting.zod_a2font.get(num);
-        note=note+Integer.toString(min);
+        int num = ((int) this.xx[0]) / 30;
+        int deg = (int) this.xx[0] - num * 30;
+        double y = (this.xx[0] - Math.floor(this.xx[0]));
+        int min = (int) Math.round(y * 60);
+        note = Integer.toString(deg);
+        if (deg < 10) {
+            note = " " + note;
+        }
+        note = note + Setting.zod_a2font.get(num);
+        note = note + Integer.toString(min);
 //        note=note+((this.xx[3]<0)?("R"):(" "));
         return note;
     }
-    public boolean getRetro(){
-    boolean r=((this.xx[3]<0)?(true):(false));
-    return r;
+
+    public boolean getRetro() {
+        boolean r = ((this.xx[3] < 0) ? (true) : (false));
+        return r;
     }
+
     /**
      * @param swe_n the swe_n to set
      */
@@ -112,6 +148,5 @@ public class Point {
         this.xx[4] = xx[4];
         this.xx[5] = xx[5];
     }
-
 
 }

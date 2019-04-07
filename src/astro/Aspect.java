@@ -6,6 +6,7 @@
 package astro;
 
 import java.util.ArrayList;
+import swisseph.SwissEph;
 
 /**
  *
@@ -28,6 +29,20 @@ public class Aspect {
     }
 
     public Aspect() {
+    }
+    public static String getSym(int i) {
+        String a = Integer.toString(i);
+        if (Setting.aspect_a2font.containsKey(i)) {
+            a = Setting.aspect_a2font.get(i);
+        }
+        return a;
+    }
+    public String getSym() {
+        String a = Integer.toString(this.asp);
+        if (Setting.aspect_a2font.containsKey(this.asp)) {
+            a = Setting.aspect_a2font.get(this.asp);
+        }
+        return a;
     }
 
     public static Aspect[] Aspects(ArrayList<Aspect> aspects) {

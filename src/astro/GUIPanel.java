@@ -32,6 +32,7 @@ import javax.swing.ImageIcon;
 
 import java.util.stream.IntStream;
 import javax.swing.JLabel;
+import util.AstrologyFonts;
 
 
 
@@ -97,27 +98,26 @@ public class GUIPanel extends javax.swing.JPanel {
     Color c_foreground = this.getBackground();
     Color c_info = new Color(0, 110, 255);
 
-    Font afont = null;
     Font a2font = null;
-    Font font = null;
     BufferedImage p_img;
     BufferedImage earth_img;
     int size_pict = 20;
     int c_size_pict = (int) Math.round(Math.sqrt(2 * size_pict * size_pict) / 2);
-    Font astr_f = this.getFont();
 
     public GUIPanel() {
+        new AstrologyFonts();
+        a2font=AstrologyFonts.getFont("Astrologia2D.ttf");
         this.color_z = Setting.color_zod();
         this.setPreferredSize(new Dimension(600, 600));
-        String fName2 = Setting.a2fname;
-        try {
-            InputStream is = GUIPanel.class.getResourceAsStream(fName2);
-            a2font = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.err.println((new StringBuilder(String.valueOf(fName2))).append(" not loaded.  Using serif font.").toString());
-            afont = new Font("serif", 0, 24);
-        }
+//        String fName2 = Setting.a2fname;
+//        try {
+//            InputStream is = GUIPanel.class.getResourceAsStream(fName2);
+//            a2font = Font.createFont(Font.TRUETYPE_FONT, is);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            System.err.println((new StringBuilder(String.valueOf(fName2))).append(" not loaded.  Using serif font.").toString());
+//            a2font = new Font("serif", 0, 24);
+//        }
         try {
             this.earth_img = (ImageIO.read(getClass().getClassLoader().getResource(Setting.fileEarth)));
         } catch (IOException ex) {
@@ -148,7 +148,6 @@ public class GUIPanel extends javax.swing.JPanel {
         lbl.setIcon(p_icon);
         lbl.setFont(a2font.deriveFont(23F));
         lbl.setToolTipText(p.getSwe_name() + " " + p.getNote());
-//        lbl.sett
         lbl.setVisible(true);
         labels_p.add(lbl);
         return lbl;
@@ -207,8 +206,7 @@ public class GUIPanel extends javax.swing.JPanel {
 //        lbl.setOpaque(true);
 //        lbl.setBackground(Color.BLACK);
         lbl.setFont(a2font.deriveFont(18F));
-//        lbl.setText("abcdefghijklnmopqrstuvwxyz".toUpperCase());
-        lbl.setText("QRW");
+        lbl.setText("Timeshift line");
         lbl.setLocation(5, 5);
         lbl.setSize(500, 60);
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -302,7 +300,7 @@ public class GUIPanel extends javax.swing.JPanel {
             yp1 = c_blank[1] + (int) Math.round(Math.sin(ad) * (r_in_p + size_pict / 2 * ((p.getPosR() + 1) * 2))) - c_size_pict;
             this.add(createLPointPl(p.getPl(), c_info, xp1, yp1));
             if (Setting.viewDeg) {
-                this.add(createLPointPlDeg(p.getPl(), c_info, xp1 + size_pict / 2, yp1));
+                this.add(createLPointPlDeg(p.getPl(), c_info, xp1 + size_pict / 2, yp1 - size_pict / 2));
             };
         }
         createP_Pl(aPPM);
@@ -457,7 +455,7 @@ public class GUIPanel extends javax.swing.JPanel {
     }
 
     public int region_pl() {
-        int a = (int) Math.round((r_in_p + size_pict) * 2 * Math.PI / (size_pict));
+        int a = (int) Math.round((r_in_p + size_pict) * 2 * Math.PI / (2*size_pict));
         return a;
     }
 
