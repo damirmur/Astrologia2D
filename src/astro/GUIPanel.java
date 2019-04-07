@@ -91,46 +91,33 @@ public class GUIPanel extends javax.swing.JPanel {
     int r_out_z = r_zod_sym + 20;
     int r_h = r_out_z + 20;
     int r_in_z = r_zod_sym - 20;
-    int r_in_p = r_in_z - 90;
+    int r_in_p = r_in_z - 30;
     int r_in_p2 = r_in_p + 10;
     Color c_background = Color.WHITE;
     Color c_foreground = this.getBackground();
     Color c_info = new Color(0, 110, 255);
 
     Font afont = null;
+    Font a2font = null;
     Font font = null;
-    Image zod_img;
-    BufferedImage pl_img;
     BufferedImage p_img;
     BufferedImage earth_img;
     int size_pict = 20;
     int c_size_pict = (int) Math.round(Math.sqrt(2 * size_pict * size_pict) / 2);
     Font astr_f = this.getFont();
-//  Хотелось бы выводить астрологическим шрифтом
-//        Font astr_f=new Font("WinstarTT",0,12);
-//        Font astr_f=new Font("ASTRO-Z",0,12);
 
     public GUIPanel() {
         this.color_z = Setting.color_zod();
         this.setPreferredSize(new Dimension(600, 600));
-        String fName = Setting.afname;
-        font = this.getFont();
+        String fName2 = Setting.a2fname;
         try {
-            InputStream is = GUIPanel.class.getResourceAsStream(fName);
-            afont = Font.createFont(Font.TRUETYPE_FONT, is);
+            InputStream is = GUIPanel.class.getResourceAsStream(fName2);
+            a2font = Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.err.println((new StringBuilder(String.valueOf(fName))).append(" not loaded.  Using serif font.").toString());
+            System.err.println((new StringBuilder(String.valueOf(fName2))).append(" not loaded.  Using serif font.").toString());
             afont = new Font("serif", 0, 24);
         }
-//        this.setFont(afont.deriveFont(18F));
-//this.getParent()
-        try {
-            this.zod_img = ImageIO.read(getClass().getClassLoader().getResource(Setting.fileZodiac));
-        } catch (IOException ex) {
-            Logger.getLogger(GUIPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         try {
             this.earth_img = (ImageIO.read(getClass().getClassLoader().getResource(Setting.fileEarth)));
         } catch (IOException ex) {
@@ -139,12 +126,6 @@ public class GUIPanel extends javax.swing.JPanel {
         this.p_img = new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
         try {
             this.p_img = (ImageIO.read(getClass().getClassLoader().getResource(Setting.filePoint)));
-        } catch (IOException ex) {
-            Logger.getLogger(GUIPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.pl_img = new BufferedImage(40, 40, BufferedImage.TYPE_INT_RGB);
-        try {
-            this.pl_img = (ImageIO.read(getClass().getClassLoader().getResource(Setting.filePlanet)));
         } catch (IOException ex) {
             Logger.getLogger(GUIPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -165,7 +146,7 @@ public class GUIPanel extends javax.swing.JPanel {
         lbl.setSize(a, a);
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
         lbl.setIcon(p_icon);
-        lbl.setFont(afont.deriveFont(23F));
+        lbl.setFont(a2font.deriveFont(23F));
         lbl.setToolTipText(p.getSwe_name() + " " + p.getNote());
 //        lbl.sett
         lbl.setVisible(true);
@@ -175,8 +156,8 @@ public class GUIPanel extends javax.swing.JPanel {
 
     private String afontPl(int numPl) {
         String a = "";
-        if (Setting.pl_afont.containsKey(numPl)) {
-            a = Setting.pl_afont.get(numPl);
+        if (Setting.pl_a2font.containsKey(numPl)) {
+            a = Setting.pl_a2font.get(numPl);
         }
         return a;
     }
@@ -189,13 +170,15 @@ public class GUIPanel extends javax.swing.JPanel {
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
         if (afontPl(p.getSwe_n()) != "") {
             lbl.setForeground(Color.BLACK);
-            lbl.setFont(afont.deriveFont(23F));
+            lbl.setFont(a2font.deriveFont(Font.BOLD, 20));
             lbl.setText(afontPl(p.getSwe_n()));
             if (p.getRetro()) {
-                lbl.setText(afontPl(p.getSwe_n()) + "N");
+                lbl.setSize(size_pict + 5, size_pict);
+                lbl.setText(afontPl(p.getSwe_n()));
+                lbl.setText(afontPl(p.getSwe_n()) + Setting.sym_a2font.get("r"));
             }
         } else {
-            lbl.setIcon(imgPlanet(p.getSwe_n()));
+//            lbl.setIcon(imgPlanet(p.getSwe_n()));
             lbl.setText(p.getSwe_name());
         }
         lbl.setToolTipText(p.getSwe_name() + " " + p.getNote());
@@ -209,8 +192,8 @@ public class GUIPanel extends javax.swing.JPanel {
         JLabel lbl = new JLabel(p.getAfontNote());
         lbl.setForeground(Color.BLACK);
         lbl.setLocation(x, y);
-        lbl.setFont(afont.deriveFont((size + 2.0F)));
-        lbl.setSize(3 * (size), size);
+        lbl.setFont(a2font.deriveFont(Font.BOLD, (size + 0.0F)));
+        lbl.setSize(4 * (size), size + 2);
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
         lbl.setToolTipText(p.getSwe_name() + " " + p.getNote());
         lbl.setVisible(true);
@@ -223,41 +206,40 @@ public class GUIPanel extends javax.swing.JPanel {
         lbl.setForeground(c_info);
 //        lbl.setOpaque(true);
 //        lbl.setBackground(Color.BLACK);
-        lbl.setFont(afont.deriveFont(18F));
+        lbl.setFont(a2font.deriveFont(18F));
 //        lbl.setText("abcdefghijklnmopqrstuvwxyz".toUpperCase());
         lbl.setText("QRW");
         lbl.setLocation(5, 5);
         lbl.setSize(500, 60);
         lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        lbl.setToolTipText("<html>" + afont.getFontName() + "<br>lines</html>");
+        lbl.setToolTipText("<html>" + a2font.getFontName() + "<br>lines</html>");
         lbl.setVisible(true);
         labels_sasp.add(lbl);
         this.add(lbl);
     }
 
-    private ImageIcon imgPlanet(int num) {
-        BufferedImage src;
-        int img_n = -1000;
-        int file_n = -1000;
-        if ((num >= 0) & (num < 10)) {
-            file_n = 0;
-            img_n = num;
-        }
-        if (num == 11) {
-            file_n = 0;
-            img_n = 10;
-        }
-        if (num == 15) {
-            file_n = 0;
-            img_n = 12;
-        }
-        if (img_n == -1000) {
-            return new ImageIcon("");
-        }
-        src = this.pl_img.getSubimage(img_n * 40, 0, 40, 40);
-        return iconRezive(src, size_pict);
-    }
-
+//    private ImageIcon imgPlanet(int num) {
+//        BufferedImage src;
+//        int img_n = -1000;
+//        int file_n = -1000;
+//        if ((num >= 0) & (num < 10)) {
+//            file_n = 0;
+//            img_n = num;
+//        }
+//        if (num == 11) {
+//            file_n = 0;
+//            img_n = 10;
+//        }
+//        if (num == 15) {
+//            file_n = 0;
+//            img_n = 12;
+//        }
+//        if (img_n == -1000) {
+//            return new ImageIcon("");
+//        }
+//        src = this.pl_img.getSubimage(img_n * 40, 0, 40, 40);
+//        return iconRezive(src, size_pict);
+//    }
     private void del_img() {
         while (line_h.size() > 0) {
             int index = line_h.size() - 1;
@@ -320,7 +302,7 @@ public class GUIPanel extends javax.swing.JPanel {
             yp1 = c_blank[1] + (int) Math.round(Math.sin(ad) * (r_in_p + size_pict / 2 * ((p.getPosR() + 1) * 2))) - c_size_pict;
             this.add(createLPointPl(p.getPl(), c_info, xp1, yp1));
             if (Setting.viewDeg) {
-                this.add(createLPointPlDeg(p.getPl(), c_info, xp1 + size_pict, yp1 + size_pict / 2));
+                this.add(createLPointPlDeg(p.getPl(), c_info, xp1 + size_pict / 2, yp1));
             };
         }
         createP_Pl(aPPM);
@@ -412,33 +394,29 @@ public class GUIPanel extends javax.swing.JPanel {
             for (int i = 0; i < line_h.size(); i++) {
                 switch (i) {
                     case 0:
-                        graphics2d.setFont(afont.deriveFont(18.0F));
                         graphics2d.setColor(Color.RED);
                         graphics2d.setStroke(new BasicStroke(2.0f));
                         break;
                     case 3:
-                        graphics2d.setFont(afont.deriveFont(18.0F));
                         graphics2d.setColor(Color.BLACK);
                         graphics2d.setStroke(new BasicStroke(2.0f));
                         break;
                     case 6:
-                        graphics2d.setFont(font.deriveFont(12.0F));
                         graphics2d.setColor(Color.BLUE);
                         graphics2d.setStroke(new BasicStroke(2.0f));
                         break;
                     case 9:
-                        graphics2d.setFont(afont.deriveFont(18.0F));
                         graphics2d.setColor(c_green);
                         graphics2d.setStroke(new BasicStroke(2.0f));
                         break;
                     default:
-                        graphics2d.setFont(font.deriveFont(12.0F));
                         graphics2d.setColor(Color.BLACK);
                         graphics2d.setStroke(new BasicStroke(1.0f));
                         break;
                 }
+                graphics2d.setFont(a2font.deriveFont(Font.BOLD, 22.0F));
                 graphics2d.drawLine(line_h.get(i).x1, line_h.get(i).y1, line_h.get(i).x2, line_h.get(i).y2);
-                graphics2d.drawString(Setting.house_afont.get(i), line_h.get(i).x2, line_h.get(i).y2);
+                graphics2d.drawString(Setting.house_a2font.get(i), line_h.get(i).x2, line_h.get(i).y2);
 
             }
         }
@@ -564,7 +542,6 @@ public class GUIPanel extends javax.swing.JPanel {
         graphics2d.setColor(c_background);
         //blank
         graphics2d.fillRect(0, 0, 2 * c_blank[0], 2 * c_blank[1]);
-        char[] sym_num = new char[1];
 
         int a = 180;
         double ad;
@@ -576,11 +553,8 @@ public class GUIPanel extends javax.swing.JPanel {
             ad = Math.toRadians(i * 30 + 15 - startGoroskop);
             xz = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_zod_sym);
             yz = c_blank[1] + (int) Math.round(Math.sin(ad) * r_zod_sym);
-            graphics2d.setFont(afont.deriveFont(Font.BOLD, 20.0F));
-            sym_num[0] = Setting.zod_afont.get(i);
-            graphics2d.drawChars(sym_num, 0, sym_num.length, xz - 10, yz + 10);
-//          graphics2d.drawString(astro.Setting.zodName[i], xz, yz);
-//          graphics2d.drawImage(zod_img, xz - 10, yz - 10, xz + 10, yz + 10, i * 40, 0, i * 40 + 40, 40, null);
+            graphics2d.setFont(a2font.deriveFont(Font.BOLD, 20.0F));
+            graphics2d.drawString(astro.Setting.zod_a2font.get(i), xz, yz + 10);
             graphics2d.setColor(c_info);
             ad = Math.toRadians(i * 30 - startGoroskop);
             xz = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_out_z);

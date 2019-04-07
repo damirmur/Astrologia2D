@@ -6,6 +6,7 @@
 package astro;
 
 import astro.Calc.CalcAspect;
+import astro.Setting.TypeGoroscop;
 import java.time.LocalDateTime;
 import swisseph.SweConst;
 import swisseph.SweDate;
@@ -27,15 +28,21 @@ public class Goroscop {
     private char houseSystem;
     private double lon;
     private double lat;
+    private TypeGoroscop tGr;
 
     public Goroscop() {
         this.dt = LocalDateTime.now();
         this.pnumbers = Setting.pl_conf;
         this.points = new Point[Setting.pl_conf.length];
-        this.house = new Houses(Setting.houseSystem);
+        this.tGr = Setting.typegoroscop;
+        if (tGr == TypeGoroscop.GOROSCOP) {
+            this.houseSystem = Setting.houseSystem;
+            this.house = new Houses(Setting.houseSystem);
+        } else {
+            this.house = null;
+        }
         this.lat = Setting.lat;
         this.lon = Setting.lon;
-        this.houseSystem = Setting.houseSystem;
         CalcPoint(this.dt, this.pnumbers, this.points, this.houseSystem, this.lat, this.lon, this.house);
         this.aspects = CalcAspect.SingleCardAspect(points, Setting.aspMajor, Setting.orbNat);
     }
@@ -44,10 +51,15 @@ public class Goroscop {
         this.dt = dt;
         this.pnumbers = Setting.pl_conf;
         this.points = new Point[Setting.pl_conf.length];
-        this.house = new Houses(Setting.houseSystem);
+        this.tGr = Setting.typegoroscop;
+        if (tGr == TypeGoroscop.GOROSCOP) {
+            this.houseSystem = Setting.houseSystem;
+            this.house = new Houses(Setting.houseSystem);
+        } else {
+            this.house = null;
+        }
         this.lat = Setting.lat;
         this.lon = Setting.lon;
-        this.houseSystem = Setting.houseSystem;
         CalcPoint(this.dt, this.pnumbers, this.points, this.houseSystem, this.lat, this.lon, this.house);
         this.aspects = CalcAspect.SingleCardAspect(points, Setting.aspMajor, Setting.orbNat);
     }
@@ -60,11 +72,13 @@ public class Goroscop {
         this.lat = Setting.lat;
         this.lon = Setting.lon;
         this.houseSystem = Setting.houseSystem;
+        tGr = TypeGoroscop.GOROSCOP;
         CalcPoint(this.dt, this.pnumbers, this.points, this.houseSystem, this.lat, this.lon, this.house);
         this.aspects = CalcAspect.SingleCardAspect(points, Setting.aspMajor, Setting.orbNat);
     }
 
     public Goroscop(LocalDateTime dt, int[] pnumbers, char houseSystem, double lat, double lon) {
+        tGr = TypeGoroscop.GOROSCOP;
         this.house = house;
         this.dt = dt;
         this.pnumbers = pnumbers;

@@ -68,12 +68,14 @@ public class Point {
         return note;
     }
     public String getAfontNote() {
+        String note;
         int num=((int)this.xx[0])/30;
         int deg=(int)this.xx[0]-num*30;
         double y=(this.xx[0]-Math.floor(this.xx[0]));
         int min=(int)Math.round(y*60);
-        String note=((deg<10)?(" "):(""))+Integer.toString(deg);
-        note=note+Setting.zod_afont.get(num);
+        note=Integer.toString(deg);
+        if(deg<10){note=" "+note;}
+        note=note+Setting.zod_a2font.get(num);
         note=note+Integer.toString(min);
 //        note=note+((this.xx[3]<0)?("R"):(" "));
         return note;

@@ -42,8 +42,8 @@ public class Setting {
     
 //GUIPanel
     public static String filePoint="res/point.png";
-    public static String fileZodiac="res/zodiac.gif";
-    public static String filePlanet="res/sun_hiro_black.png";
+//    public static String fileZodiac="res/zodiac.gif";
+//    public static String filePlanet="res/sun_hiro_black.png";
     public static String fileEarth="res/earth.png";
 
 //            SUN = 0;
@@ -95,7 +95,12 @@ public class Setting {
     TRANSIT,
     SYNASTRY
   }
+    public static enum TypeGoroscop {
+    COSMOGRAMMA,
+    GOROSCOP
+  }
     public static TypeCards typecards=TypeCards.NATAL;
+    public static TypeGoroscop typegoroscop=TypeGoroscop.GOROSCOP;
 
     public static enum TypeAsp {
     GARMONIC,
@@ -109,49 +114,57 @@ public class Setting {
     OVEN}
     public static TopCards topcards=TopCards.ASC;
     //GUI
-    public static String afname="/Astro.ttf";
-    public static Map<Integer, String> pl_afont = new HashMap<Integer, String>(){{
-    put(0,"Q");
-    put(1,"R");
-    put(2,"S");
-    put(3,"T");
-    put(4,"U");
-    put(5,"V");
-    put(6,"W");
-    put(7,"X");
-    put(8,"Y");
-    put(9,"Z");
-    put(11,"<");
-    put(12,"‚");
-    put(15,"t");
+    public static String a2fname="/Astrologia2D.ttf";
+    public static Map<String, String> sym_a2font = new HashMap<String, String>(){{
+    put("r",new String(new int[] {917959}, 0, 1));
+    put("d",new String(new int[] {917960}, 0, 1));
+    put("s",new String(new int[] {917961}, 0, 1));
+    put("t",new String(new int[] {917962}, 0, 1));
     }};
-    public static Map<Integer, Character> zod_afont = new HashMap<Integer, Character>(){{
-    put(0,'A');
-    put(1,'B');
-    put(2,'C');
-    put(3,'D');
-    put(4,'E');
-    put(5,'F');
-    put(6,'G');
-    put(7,'H');
-    put(8,'I');
-    put(9,'J');
-    put(10,'K');
-    put(11,'L');
+
+    public static Map<Integer, String> pl_a2font = new HashMap<Integer, String>(){{
+    put(0,new String(new int[] {917943}, 0, 1));
+    put(1,new String(new int[] {917944}, 0, 1));
+    put(2,new String(new int[] {917945}, 0, 1));
+    put(3,new String(new int[] {917946}, 0, 1));
+    put(4,new String(new int[] {917947}, 0, 1));
+    put(5,new String(new int[] {917948}, 0, 1));
+    put(6,new String(new int[] {917949}, 0, 1));
+    put(7,new String(new int[] {917950}, 0, 1));
+    put(8,new String(new int[] {917951}, 0, 1));
+    put(9,new String(new int[] {917952}, 0, 1));
+    put(11,new String(new int[] {917953}, 0, 1));
+    put(12,new String(new int[] {917955}, 0, 1));
+    put(15,new String(new int[] {917957}, 0, 1));
+    put(57,new String(new int[] {917958}, 0, 1));
     }};
-    public static Map<Integer, String> house_afont = new HashMap<Integer, String>(){{
-    put(0,"a");
-    put(1,"II");
-    put(2,"III");
-    put(3,"c");
-    put(4,"V");
-    put(5,"VI");
-    put(6,"VII");
-    put(7,"VIII");
-    put(8,"IX");
-    put(9,"b");
-    put(10,"XI ");
-    put(11,"XII ");
+    public static Map<Integer, String> zod_a2font = new HashMap<Integer, String>(){{
+    put(0,new String(new int[] {917988}, 0, 1));
+    put(1,new String(new int[] {917989}, 0, 1));
+    put(2,new String(new int[] {917990}, 0, 1));
+    put(3,new String(new int[] {917991}, 0, 1));
+    put(4,new String(new int[] {917992}, 0, 1));
+    put(5,new String(new int[] {917993}, 0, 1));
+    put(6,new String(new int[] {917994}, 0, 1));
+    put(7,new String(new int[] {917995}, 0, 1));
+    put(8,new String(new int[] {917996}, 0, 1));
+    put(9,new String(new int[] {917997}, 0, 1));
+    put(10,new String(new int[] {917998}, 0, 1));
+    put(11,new String(new int[] {917999}, 0, 1));
+    }};
+    public static Map<Integer, String> house_a2font = new HashMap<Integer, String>(){{
+    put(0,new String(new int[] {917963}, 0, 1));
+    put(1,new String(new int[] {917964}, 0, 1));
+    put(2,new String(new int[] {917965}, 0, 1));
+    put(3,new String(new int[] {917966}, 0, 1));
+    put(4,new String(new int[] {917967}, 0, 1));
+    put(5,new String(new int[] {917968}, 0, 1));
+    put(6,new String(new int[] {917969}, 0, 1));
+    put(7,new String(new int[] {917970}, 0, 1));
+    put(8,new String(new int[] {917971}, 0, 1));
+    put(9,new String(new int[] {917972}, 0, 1));
+    put(10,new String(new int[] {917973}, 0, 1));
+    put(11,new String(new int[] {917974}, 0, 1));
     }};
     public static Color c_green=new Color(0,127,70);
 //размещение планет на карте:
