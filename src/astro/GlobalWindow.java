@@ -332,6 +332,7 @@ public class GlobalWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         LocalDateTime dt = dateTimePicker1.getDateTimeStrict();
         dt = dt.minusHours((int) Setting.gmt);
+        new MoonData(dt);
 //        System.out.println(sw.swe_version().toString());
 
         jTextArea1.setText("");
@@ -339,7 +340,7 @@ public class GlobalWindow extends javax.swing.JFrame {
         jTextArea1.append(String.format(Setting.locale_ru, dt.toString()) + "\n");
         jTextArea1.append("Planet natal\n");
         for (Point point : gs.getPoints()) {
-            jTextArea1.append(String.format(Setting.locale_ru, "%5s\t%5s\n", point.getSwe_Sym() + point.getRetro_Sym(), point.getAfontNote()));
+            jTextArea1.append(point.getSwe_Sym() + point.getRetro_Sym()+" "+ point.getAfontNote() + "\n");
         }
         jTextArea1.append("Aspect natal\n");
         for (Aspect aspect : gs.getAspects()) {

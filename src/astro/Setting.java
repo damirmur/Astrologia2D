@@ -89,6 +89,11 @@ public class Setting {
 //            VULCAN = 55;
 //            WHITE_MOON = 56;
 //            PROSERPINA = 57;
+    public static enum TypeMoonCal {
+    Degree12,
+    RISE,
+  }
+    public static TypeMoonCal typeMoonCal=TypeMoonCal.Degree12;
     //cards
     public static enum TypeCards {
     NATAL,
