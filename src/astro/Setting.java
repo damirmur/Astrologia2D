@@ -35,7 +35,7 @@ public class Setting {
 
 //    public static        
     public static LocalDateTime ldt = LocalDateTime.of(1971, 11, 20, 0, 43, 0, 0);
-    public static double gmt = 5;
+    public static double tzOffset = 5;
     public static String stat = "Бузулук";
     public static double lon = 52.2635000;//долгота
     public static double lat = 52.7807000;//широта
@@ -93,7 +93,7 @@ public class Setting {
     Degree12,
     RISE,
   }
-    public static TypeMoonCal typeMoonCal=TypeMoonCal.Degree12;
+    public static TypeMoonCal typeMoonCal=TypeMoonCal.RISE;
     //cards
     public static enum TypeCards {
     NATAL,
