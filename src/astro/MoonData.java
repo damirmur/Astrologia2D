@@ -20,7 +20,7 @@ public class MoonData {
     private int moonday;
     private double[] moonMonth;
     private double[] moonPhases;
-    private double[] moonZodiac;
+//    private double[] moonZodiacPhases;
 
     public int getPhase() {
         int ph = 1;
@@ -162,7 +162,7 @@ public class MoonData {
             tcz.setOffset(point);
             daysmoon = sw.getTransitUT(tcz, daysmoon - 0.1, false);
             lzod.add(daysmoon);//forward
-            System.out.println(point + " " + printDate(daysmoon));
+//            System.out.println(point + " " + printDate(daysmoon));
         }
         zodm = new double[lzod.size()];
         for (int i = 0; i < zodm.length; i++) {
@@ -242,6 +242,14 @@ public class MoonData {
         for (int i = 0; i < this.moonMonth.length - 1; i++) {
             text = text + (i + 1) + " day Moon " + printDate(this.moonMonth[i]+ this.tzOffset / 24.0) + "\r\n";
         }
+        text = text + "" + "\r\n";
+        text = text + "Zodiac Moon" + "\r\n";
+        text = text + "" + "\r\n";
+        double mz[]=moon_zod(this.sw,this.sd.getJulDay(),this.tzOffset);
+        for (int i = 0; i < mz.length - 1; i++) {
+            text = text + Setting.zodName[i] + " Sign Moon " + printDate(mz[i]+ this.tzOffset / 24.0) + "\r\n";
+        }
+      
         text = text + "" + "\r\n";
         return text;
     }
