@@ -35,10 +35,14 @@ public class Setting {
 
 //    public static        
     public static LocalDateTime ldt = LocalDateTime.of(1971, 11, 20, 0, 43, 0, 0);
-    public static double tzOffset = 5;
-    public static String stat = "Бузулук";
-    public static double lon = 52.2635000;//долгота
-    public static double lat = 52.7807000;//широта
+//    public static double tzOffset = 5;
+//    public static String stat = "Бузулук";
+//    public static double lon = 52.2635000;//долгота
+//    public static double lat = 52.7807000;//широта
+    public static double tzOffset = 3;
+    public static String stat = "Moscow";
+    public static double lon = 37.5833;//долгота
+    public static double lat = 55.45;//широта
     
 //GUIPanel
     public static String filePoint="res/point.png";

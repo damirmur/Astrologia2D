@@ -20,22 +20,28 @@ public class MoonData {
     private int moonday;
     private double[] moonMonth;
     private double[] moonPhases;
+    private double[] moonZodiac;
 
     public int getPhase() {
         int ph = 1;
-        double jd=this.sd.getJulDay();
+        double jd = this.sd.getJulDay();
         for (int i = 1; i < this.moonPhases.length; i++) {
-            if(jd<this.moonPhases[i]){break;}
-            ph=i+1;
+            if (jd < this.moonPhases[i]) {
+                break;
+            }
+            ph = i + 1;
         }
         return ph;
     }
-    private int getmdR() {
+
+    private int getmoondayRise() {
         int md = 0;
-        double jd=this.sd.getJulDay();
+        double jd = this.sd.getJulDay();
         for (int i = 1; i < this.moonMonth.length; i++) {
-            if(jd<this.moonMonth[i]){break;}
-            md=i+1;
+            if (jd < this.moonMonth[i]) {
+                break;
+            }
+            md = i + 1;
         }
         return md;
     }
@@ -100,8 +106,8 @@ public class MoonData {
             this.moonday = (int) Math.floor(day_Jyotiṣa(dt));
             this.moonMonth = month_Jyotiṣa(this.sw, this.sd);
         } else {
-            this.moonMonth = moon_Rise(this.sw,this.sd, this.lat, this.lon, this.tzOffset);
-            this.moonday=getmdR();
+            this.moonMonth = moon_Rise(this.sw, this.sd, this.lat, this.lon, this.tzOffset);
+            this.moonday = getmoondayRise();
         }
 //        System.out.println(dt + " " + this.moonday);
     }
@@ -142,6 +148,29 @@ public class MoonData {
 
         return phmd;
     }
+    public double[] moon_zod(SwissEph sw, double jd, double tzOffset) {
+        double[] zodm;
+        ArrayList<Double> lzod = new ArrayList();
+        int fl = SweConst.SEFLG_SWIEPH | SweConst.SEFLG_TRANSIT_LONGITUDE;
+        boolean backwards = true;
+        TransitCalculator tcz = new TCPlanet(sw, SweConst.SE_MOON, fl, 0);
+        double daysmoon = sw.getTransitUT(tcz, jd, backwards);
+        double point = 0.0;
+        backwards = false;
+        for (int i = 0; i < 13; i++) {
+            point = i * 30;
+            tcz.setOffset(point);
+            daysmoon = sw.getTransitUT(tcz, daysmoon - 0.1, false);
+            lzod.add(daysmoon);//forward
+            System.out.println(point + " " + printDate(daysmoon));
+        }
+        zodm = new double[lzod.size()];
+        for (int i = 0; i < zodm.length; i++) {
+            zodm[i] = lzod.get(i);
+        }
+
+        return zodm;
+    }
 
     public static double[] moon_Rise(SwissEph sw, SweDate sd, double lat, double lon, double tzOffset) {
         double[] md;
@@ -167,7 +196,7 @@ public class MoonData {
         double[] geopos = {lon, lat, 0};
         DblObj tret = new DblObj();
         StringBuffer serr = new StringBuffer();
-        date=previousTransitUT;
+        date = previousTransitUT;
         moondays.add(previousTransitUT);
         double monday = sd.getJulDay();
         while (date < nextTransitUT) {
@@ -181,7 +210,7 @@ public class MoonData {
             }
             moondays.add(tret.val);
             sw.swe_rise_trans(sd.getJulDay(), pl, null, fl, SweConst.SE_CALC_SET, geopos, 0, 0, tret, serr);
-            date=monday;
+            date = monday;
         }
         moondays.add(nextTransitUT);
         md = new double[moondays.size()];
@@ -196,6 +225,27 @@ public class MoonData {
         return moonday;
     }
 
+    public String getAllMonth() {
+        String text = "\r\n";
+        text = text + "Local date " + printDate(this.sd.getJulDay()+ this.tzOffset / 24.0) + "\r\n";
+        text = text + "" + "\r\n";
+        text = text + this.moonday + " day Moon \r\n";
+        text = text + "" + "\r\n";
+        text = text + "Phases Moon" + "\r\n";
+        text = text + "" + "\r\n";
+        for (int i = 0; i < this.moonPhases.length - 1; i++) {
+            text = text + (i + 1) + " phasa Moon " + printDate(this.moonPhases[i]+ this.tzOffset / 24.0) + "\r\n";
+        }
+        text = text + "" + "\r\n";
+        text = text + "Days Moon " +Setting.typeMoonCal.toString()+ "\r\n";
+        text = text + "" + "\r\n";
+        for (int i = 0; i < this.moonMonth.length - 1; i++) {
+            text = text + (i + 1) + " day Moon " + printDate(this.moonMonth[i]+ this.tzOffset / 24.0) + "\r\n";
+        }
+        text = text + "" + "\r\n";
+        return text;
+    }
+
     static String printDate(double jd) {
         SweDate sd = new SweDate(jd);
         double time = sd.getHour();
@@ -203,6 +253,15 @@ public class MoonData {
         time = 60 * (time - hour);
         int min = (int) time;
         double sec = 60 * (time - min);
+        if (sec >= 59.99) {
+            sec = 0;
+            min = min + 1;
+        }
+        if (min >= 60) {
+            min = 0;
+            hour = hour + 1;
+        }
+//        if (hour==24){hour=0; sd=sd.;}
 
         return String.format("%4s-%02d-%02d %2d:%02d:%05.2f", sd.getYear(), sd.getMonth(), sd.getDay(), hour, min, sec);
     }
