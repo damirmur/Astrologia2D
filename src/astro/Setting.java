@@ -16,6 +16,7 @@ import java.util.Map;
  * @author Admin
  */
 public class Setting {
+    public static String swepath="./ephe";
     //number planet in SweConst
     public static int[] pl_conf = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 57};
     public static Locale locale_ru = new Locale("ru");
@@ -97,7 +98,7 @@ public class Setting {
     Degree12,
     RISE,
   }
-    public static TypeMoonCal typeMoonCal=TypeMoonCal.RISE;
+    public static TypeMoonCal typeMoonCal=TypeMoonCal.Degree12;
     //cards
     public static enum TypeCards {
     NATAL,

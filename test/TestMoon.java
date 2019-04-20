@@ -1,6 +1,8 @@
 
+import astro.Setting;
 import java.util.ArrayList;
 import swisseph.*;
+import util.Utilites;
 
 // When is Moon rising on May 8, 2014 in India
 // 80.1 E, 13.08 N in Krishnamurti ayanamsa system
@@ -10,15 +12,127 @@ import swisseph.*;
 // - Transit calculations over AC or similar are done with
 //   the TCHouses TransitCalculator
 // - Times are UTC always
-public class TestMoonRising {
+public class TestMoon {
 
     private static double degreeToDouble(int grade, int min) {
         return grade + min / 60;
     }
 
+    public static enum TypeMoonEvent {
+        SIGN,
+        TRANSIT,
+        NOCOURSE,
+        DAY
+    }
+
+    private static class MoonEvent {
+
+        double dtev;
+        TypeMoonEvent typeev;
+        int el;
+        double value;
+
+        public MoonEvent(double dtev, TypeMoonEvent typeev, int el, double value) {
+            this.dtev = dtev;
+            this.typeev = typeev;
+            this.el = el;
+            this.value = value;
+        }
+    }
+
     private static final double tzOffset = 3.0;
 
     public static void main(String[] p) {
+//        MoonMonth();
+        MoonPeriod(4, 2019);
+
+    }
+
+    static void MoonPeriod(int month, int year) {
+//MoonEvent moomev
+        ArrayList<MoonEvent> moonev = new ArrayList();
+
+        int month1 = month + 1;
+        month1 = ((month1 < 13) ? month1 : 1);
+        int year1 = ((month1 == 1) ? year + 1 : year);
+        SweDate sd = new SweDate(year, month, 1, -tzOffset, true);
+        sd.setCalendarType(sd.SE_GREG_CAL, sd.SE_KEEP_DATE);
+        SweDate sd1 = new SweDate(year1, month1, 1, -tzOffset, true);
+        sd1.setCalendarType(sd.SE_GREG_CAL, sd.SE_KEEP_DATE);
+        double jt0 = sd.getJulDay();
+        double jt1 = sd1.getJulDay() - 0.000000001;
+        System.out.println(printDate(jt0) + " " + printDate(jt1));
+        SwissEph sw = new SwissEph(Setting.swepath);
+
+        //sign
+        StringBuffer serr = new StringBuffer();
+        double x2[] = new double[6];
+        long iflag, iflgret;
+        iflag = SweConst.SEFLG_SPEED;
+        iflgret = sw.swe_calc_ut(jt0, SweConst.SE_MOON, (int) iflag, x2, serr);
+        double moonpos = x2[0];
+        int num = ((int) x2[0] / 30) * 30;
+//        System.out.println(printDate(jt0) + " " + num);
+        int fl = SweConst.SEFLG_SWIEPH | SweConst.SEFLG_TRANSIT_LONGITUDE;
+        boolean backwards = true;
+        TransitCalculator tcz = new TCPlanet(sw, SweConst.SE_MOON, fl, 0);
+        double tempdt = jt0;
+        while (tempdt <= jt1) {
+            num = (num >= 360) ? 0 : num;
+            tcz.setOffset(num);
+            tempdt = sw.getTransitUT(tcz, tempdt + 0.1, backwards);
+            moonev.add(new MoonEvent(tempdt, TypeMoonEvent.SIGN, num, 0));
+            backwards = false;
+            num = num + 30;
+        }
+        //moon transit
+//        iflgret = sw.swe_calc_ut(jt0, SweConst.SE_SUN, (int) iflag, x2, serr);
+//        double sunpos = x2[0];
+//        int angle = (int) ((sunpos > moonpos) ? (sunpos - moonpos) : (moonpos - sunpos));
+//        System.out.println(printDate(jt0) + " " + angle);
+//        num = 1;
+//        for (int i = 1; i < asp2.length; i++) {
+//            if (angle < asp2[i]) {
+//                break;
+//            }
+//            num = i + 1;
+//        }
+//        if (num == asp2.length - 1) {
+//            num = 0;
+//        }
+//        System.out.println(asp2[num] + " " + angle);
+//
+        fl = SweConst.SEFLG_SWIEPH | SweConst.SEFLG_TRANSIT_LONGITUDE;
+        int pl[] = Setting.pl_conf;
+        for (int p = 0; p < pl.length - 1; p++) {
+            if (pl[p] == 1) {
+                continue;
+            }
+            TransitCalculator tc = new TCPlanetPlanet(sw, SweConst.SE_MOON, pl[p], fl, 0);
+            double asp2[]=Utilites.asp2(Setting.aspMajor);
+            for (int i = 0; i < asp2.length - 1; i++) {
+                tempdt = jt0;
+                while (tempdt <= jt1) {
+                    tc.setOffset(asp2[i]);
+                    tempdt = sw.getTransitUT(tc, tempdt + 0.01, false);
+                    if (tempdt <= jt1) {
+                        moonev.add(new MoonEvent(tempdt, TypeMoonEvent.TRANSIT, pl[p], asp2[i]));
+                    }
+                }
+            }
+        }
+        //Moon without course
+        //moon day
+        for (int i = 0; i < moonev.size(); i++) {
+            System.out.println(printDate(moonev.get(i).dtev + tzOffset / 24) + " " + moonev.get(i).typeev + " " + moonev.get(i).el + " " + moonev.get(i).value);
+        }
+
+    }
+
+    public TestMoon() {
+    }
+
+    static void MoonMonth() {
         Double[] md;
         ArrayList<Double> moondays = new ArrayList();
         SwissEph sw = new SwissEph("./ephe");
@@ -84,7 +198,7 @@ public class TestMoonRising {
             System.out.println(i + " " + printDate(md[i]));
         }
         System.out.println("Noon to point");
-
+//sign
         ArrayList<Double> lzod = new ArrayList();
         fl = SweConst.SEFLG_SWIEPH | SweConst.SEFLG_TRANSIT_LONGITUDE;
         backwards = true;
@@ -99,7 +213,6 @@ public class TestMoonRising {
             lzod.add(daysmoon);//forward
             System.out.println(point + " " + printDate(daysmoon));
         }
-
     }
 
     static String printDate(double jd) {

@@ -24,9 +24,8 @@ public class FirstMain {
         // TODO code application logic here
 //        PrintStream out = new PrintStream(new FileOutputStream("output.txt"));
 //        System.setOut(out);
-        String path = "";
         SwissEph sw = new SwissEph();
-        sw.swe_set_ephe_path(path);
+        sw.swe_set_ephe_path(Setting.swepath);
         if (args.length != 0) {
         ;}
         else {

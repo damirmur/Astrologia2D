@@ -8,6 +8,7 @@ package astro;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import swisseph.*;
+import util.Utilites;
 
 //import swisseph.*;
 public class MoonData {
@@ -227,51 +228,32 @@ public class MoonData {
 
     public String getAllMonth() {
         String text = "\r\n";
-        text = text + "Local date " + printDate(this.sd.getJulDay()+ this.tzOffset / 24.0) + "\r\n";
+        text = text + "Local date " + Utilites.printDate(this.sd.getJulDay()+ this.tzOffset / 24.0) + "\r\n";
         text = text + "" + "\r\n";
         text = text + this.moonday + " day Moon \r\n";
         text = text + "" + "\r\n";
         text = text + "Phases Moon" + "\r\n";
         text = text + "" + "\r\n";
         for (int i = 0; i < this.moonPhases.length - 1; i++) {
-            text = text + (i + 1) + " phasa Moon " + printDate(this.moonPhases[i]+ this.tzOffset / 24.0) + "\r\n";
+            text = text + (i + 1) + " phasa Moon " + Utilites.printDate(this.moonPhases[i]+ this.tzOffset / 24.0) + "\r\n";
         }
         text = text + "" + "\r\n";
         text = text + "Days Moon " +Setting.typeMoonCal.toString()+ "\r\n";
         text = text + "" + "\r\n";
         for (int i = 0; i < this.moonMonth.length - 1; i++) {
-            text = text + (i + 1) + " day Moon " + printDate(this.moonMonth[i]+ this.tzOffset / 24.0) + "\r\n";
+            text = text + (i + 1) + " day Moon " + Utilites.printDate(this.moonMonth[i]+ this.tzOffset / 24.0) + "\r\n";
         }
         text = text + "" + "\r\n";
         text = text + "Zodiac Moon" + "\r\n";
         text = text + "" + "\r\n";
         double mz[]=moon_zod(this.sw,this.sd.getJulDay(),this.tzOffset);
         for (int i = 0; i < mz.length - 1; i++) {
-            text = text + Setting.zodName[i] + " Sign Moon " + printDate(mz[i]+ this.tzOffset / 24.0) + "\r\n";
+            text = text + String.format("%-20s%40s%n",Setting.zodName[i] + " --- Moon ", Utilites.printDate(mz[i]+ this.tzOffset / 24.0));
         }
       
         text = text + "" + "\r\n";
         return text;
     }
 
-    static String printDate(double jd) {
-        SweDate sd = new SweDate(jd);
-        double time = sd.getHour();
-        int hour = (int) time;
-        time = 60 * (time - hour);
-        int min = (int) time;
-        double sec = 60 * (time - min);
-        if (sec >= 59.99) {
-            sec = 0;
-            min = min + 1;
-        }
-        if (min >= 60) {
-            min = 0;
-            hour = hour + 1;
-        }
-//        if (hour==24){hour=0; sd=sd.;}
-
-        return String.format("%4s-%02d-%02d %2d:%02d:%05.2f", sd.getYear(), sd.getMonth(), sd.getDay(), hour, min, sec);
-    }
 
 }
