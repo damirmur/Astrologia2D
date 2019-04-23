@@ -31,7 +31,7 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-    public void getTextMoonMonth(LocalDateTime dt) {
+    public void MoonMonth(LocalDateTime dt) {
 //    LocalDateTime dt=LocalDateTime.now();
         BufferedImage moonBlack_img =new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
         try {
@@ -39,17 +39,33 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         } catch (IOException ex) {
             Logger.getLogger(GUIPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         MoonData md = new MoonData(null, dt);
         ImageIcon ii = new ImageIcon(Utilites.iconSprite(moonBlack_img,(int) md.getMonday()));
         ii=Utilites.iconRezive(ii, 100);
         jTextPane1.insertIcon(ii);
+        String cr="\r\n";
+        try {
+            jTextPane1.getDocument().insertString(jTextPane1.getDocument().getLength(),cr, null);
+        } catch (BadLocationException ex) {
+            Logger.getLogger(DocInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             jTextPane1.getDocument().insertString(jTextPane1.getDocument().getLength(), md.getAllMonth(), null);
             this.title=jTextPane1.getDocument().getText(2, 35);
         } catch (BadLocationException ex) {
             Logger.getLogger(DocInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        jTextPane1.setCaretPosition(0);
+    }
+    public void Goroscop(LocalDateTime dt) {
+        GUIPanel gp= new GUIPanel();
+        String cr="uyrytrui\r\n";
+        try {
+            jTextPane1.getDocument().insertString(jTextPane1.getDocument().getLength(),cr, null);
+        } catch (BadLocationException ex) {
+            Logger.getLogger(DocInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jTextPane1.insertComponent(gp);
         jTextPane1.setCaretPosition(0);
     }
 

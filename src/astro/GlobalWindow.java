@@ -290,7 +290,12 @@ public class GlobalWindow extends javax.swing.JFrame {
 
         jMenu1.setText("File");
 
-        jMenuItem1.setText("jMenuItem1");
+        jMenuItem1.setText("NewGoroscop");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
@@ -438,8 +443,17 @@ public class GlobalWindow extends javax.swing.JFrame {
         DocInternalFrame docMoon=new DocInternalFrame();
         jDesktopPane1.add(docMoon);
         docMoon.setVisible(true);
-        docMoon.getTextMoonMonth(dateTimePicker1.getDateTimeStrict());
+        docMoon.MoonMonth(dateTimePicker1.getDateTimeStrict());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+        DocInternalFrame docGor=new DocInternalFrame();
+        jDesktopPane1.add(docGor);
+        docGor.setVisible(true);
+        docGor.Goroscop(dateTimePicker1.getDateTimeStrict());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
