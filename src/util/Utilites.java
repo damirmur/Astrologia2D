@@ -5,6 +5,9 @@
  */
 package util;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import javax.swing.ImageIcon;
 import swisseph.SweDate;
 
 /**
@@ -12,6 +15,25 @@ import swisseph.SweDate;
  * @author Admin
  */
 public class Utilites {
+    public static ImageIcon iconRezive(BufferedImage src, int size) {
+        ImageIcon imageIcon = new ImageIcon(src.getScaledInstance(size, size, Image.SCALE_DEFAULT));
+        return imageIcon;
+    }
+    public static ImageIcon iconRezive(ImageIcon src, int size) {
+        ImageIcon imageIcon = new ImageIcon(src.getImage().getScaledInstance(size, size, Image.SCALE_DEFAULT));
+        return imageIcon;
+    }
+
+    public static BufferedImage iconSprite(BufferedImage src, int n) {
+        BufferedImage p_icon;
+        try {
+            p_icon = src.getSubimage(0, (int) n * 52, 52, 52);
+        } catch(java.awt.image.RasterFormatException e){
+            n = 0;
+            p_icon = src.getSubimage(0, n * 52, 52, 52);
+        }
+        return p_icon;
+    }
 
     public static String printDate(double jd) {
         SweDate sd = new SweDate(jd);
@@ -31,6 +53,12 @@ public class Utilites {
 //        if (hour==24){hour=0; sd=sd.;}
 
         return String.format("%4s-%02d-%02d %2d:%02d:%05.2f", sd.getYear(), sd.getMonth(), sd.getDay(), hour, min, sec);
+    }
+
+    public static int nextcircle(int length, int num) {
+        int nnext;
+        nnext = ((length - 1) >= num) ? (0) : (num + 1);
+        return nnext;
     }
 
     public static double[] asp2(int[] asp) {

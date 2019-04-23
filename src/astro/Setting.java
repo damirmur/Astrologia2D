@@ -50,6 +50,8 @@ public class Setting {
 //    public static String fileZodiac="res/zodiac.gif";
 //    public static String filePlanet="res/sun_hiro_black.png";
     public static String fileEarth="res/earth.png";
+    public static String fileMoonBl="res/MoonBlack.png";
+//    public static String fileMoonBl="res/MoonWhite.png";
 
 //            SUN = 0;
 //            MOON = 1;

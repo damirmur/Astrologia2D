@@ -13,8 +13,10 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JRootPane;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
+import util.Utilites;
 
 /**
  *
@@ -31,16 +33,17 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
 
     public void getTextMoonMonth(LocalDateTime dt) {
 //    LocalDateTime dt=LocalDateTime.now();
-        BufferedImage earth_img =new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
+        BufferedImage moonBlack_img =new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
         try {
-            earth_img = (ImageIO.read(getClass().getClassLoader().getResource(Setting.fileEarth)));
+            moonBlack_img = (ImageIO.read(getClass().getClassLoader().getResource(Setting.fileMoonBl)));
         } catch (IOException ex) {
             Logger.getLogger(GUIPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ImageIcon ii = new ImageIcon(earth_img);
-        jTextPane1.insertIcon(ii);
         MoonData md = new MoonData(null, dt);
+        ImageIcon ii = new ImageIcon(Utilites.iconSprite(moonBlack_img,(int) md.getMonday()));
+        ii=Utilites.iconRezive(ii, 100);
+        jTextPane1.insertIcon(ii);
         try {
             jTextPane1.getDocument().insertString(jTextPane1.getDocument().getLength(), md.getAllMonth(), null);
             this.title=jTextPane1.getDocument().getText(2, 35);
