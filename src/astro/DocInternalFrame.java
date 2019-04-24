@@ -59,7 +59,7 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
     }
     public void Goroscop(LocalDateTime dt) {
         GUIPanel gp= new GUIPanel();
-        String cr="uyrytrui\r\n";
+        String cr="\r\n";
         try {
             jTextPane1.getDocument().insertString(jTextPane1.getDocument().getLength(),cr, null);
         } catch (BadLocationException ex) {

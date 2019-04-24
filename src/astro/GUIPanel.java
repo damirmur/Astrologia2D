@@ -5,6 +5,7 @@
  */
 package astro;
 
+import astro.graphics.GoroscopImageSetting;
 import astro.Calc.CalcAspect;
 import astro.Setting.TopCards;
 import astro.Setting.TypeAsp;
@@ -33,6 +34,7 @@ import javax.swing.ImageIcon;
 import java.util.stream.IntStream;
 import javax.swing.JLabel;
 import util.AstrologyFonts;
+import static util.Utilites.iconRezive;
 
 
 
@@ -76,18 +78,18 @@ public class GUIPanel extends javax.swing.JPanel {
         }
     }
 
-    private static List<arr_s_asp> line_s_asp = new ArrayList<arr_s_asp>();
-    private static List<arr_h> line_h = new ArrayList<arr_h>();
-    private static List<arr_p_pl> line_p_pl = new ArrayList<arr_p_pl>();
-    private static List<JLabel> labels_plDeg = new ArrayList<JLabel>();
-    private static List<JLabel> labels_p = new ArrayList<JLabel>();
-    private static List<JLabel> labels_pl = new ArrayList<JLabel>();
-    private static List<JLabel> labels_sasp = new ArrayList<JLabel>();
-    private static List<JLabel> labels_dasp = new ArrayList<JLabel>();
+    private  List<arr_s_asp> line_s_asp = new ArrayList<arr_s_asp>();
+    private  List<arr_h> line_h = new ArrayList<arr_h>();
+    private  List<arr_p_pl> line_p_pl = new ArrayList<arr_p_pl>();
+    private  List<JLabel> labels_plDeg = new ArrayList<JLabel>();
+    private  List<JLabel> labels_p = new ArrayList<JLabel>();
+    private  List<JLabel> labels_pl = new ArrayList<JLabel>();
+    private  List<JLabel> labels_sasp = new ArrayList<JLabel>();
+    private  List<JLabel> labels_dasp = new ArrayList<JLabel>();
     double startGoroskop = 0;
     int[][] color_z;
     Graphics2D graphics2d;
-    int[] c_blank = {300, 250};
+    int[] c_blank = {250, 250};
     int r_zod_sym = 200;
     int r_out_z = r_zod_sym + 20;
     int r_h = r_out_z + 20;
@@ -108,7 +110,7 @@ public class GUIPanel extends javax.swing.JPanel {
         new AstrologyFonts();
         a2font=AstrologyFonts.getFont("Astrologia2D.ttf");
         this.color_z = Setting.color_zod();
-        this.setPreferredSize(new Dimension(600, 600));
+        this.setPreferredSize(new Dimension(500, 500));
 //        String fName2 = Setting.a2fname;
 //        try {
 //            InputStream is = GUIPanel.class.getResourceAsStream(fName2);
@@ -132,10 +134,6 @@ public class GUIPanel extends javax.swing.JPanel {
 
     }
 
-    private ImageIcon iconRezive(BufferedImage src, int size) {
-        ImageIcon imageIcon = new ImageIcon(src.getScaledInstance(size, size, Image.SCALE_DEFAULT));
-        return imageIcon;
-    }
 
     private JLabel createLPointP(Point p, Color c, int x, int y) {
         int a = 4;
@@ -478,7 +476,7 @@ public class GUIPanel extends javax.swing.JPanel {
     public void paintCosmogram(Point[] ps) {
         del_img();
         createAspLabel();
-        switch (Setting.allocation2D) {
+        switch (Setting.goroscop_setting.getAllocation2D()) {
             case (1): {
                 circle_pl(ps);
                 break;
@@ -514,7 +512,7 @@ public class GUIPanel extends javax.swing.JPanel {
                 create_House(hs);
             }
         }
-        switch (Setting.allocation2D) {
+        switch (Setting.goroscop_setting.getAllocation2D()) {
             case (1): {
                 circle_pl(ps);
                 break;
