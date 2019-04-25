@@ -5,7 +5,6 @@
  */
 package astro;
 
-import astro.graphics.GoroscopImageSetting;
 import astro.Calc.CalcAspect;
 import astro.Setting.TopCards;
 import astro.Setting.TypeAsp;
@@ -17,13 +16,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.Cursor;
 import java.awt.RenderingHints;
-;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -107,19 +103,9 @@ public class GUIPanel extends javax.swing.JPanel {
     int c_size_pict = (int) Math.round(Math.sqrt(2 * size_pict * size_pict) / 2);
 
     public GUIPanel() {
-        new AstrologyFonts();
         a2font=AstrologyFonts.getFont("Astrologia2D.ttf");
         this.color_z = Setting.color_zod();
         this.setPreferredSize(new Dimension(500, 500));
-//        String fName2 = Setting.a2fname;
-//        try {
-//            InputStream is = GUIPanel.class.getResourceAsStream(fName2);
-//            a2font = Font.createFont(Font.TRUETYPE_FONT, is);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            System.err.println((new StringBuilder(String.valueOf(fName2))).append(" not loaded.  Using serif font.").toString());
-//            a2font = new Font("serif", 0, 24);
-//        }
         try {
             this.earth_img = (ImageIO.read(getClass().getClassLoader().getResource(Setting.fileEarth)));
         } catch (IOException ex) {
@@ -175,7 +161,6 @@ public class GUIPanel extends javax.swing.JPanel {
                 lbl.setText(afontPl(p.getSwe_n()) + Setting.sym_a2font.get("r"));
             }
         } else {
-//            lbl.setIcon(imgPlanet(p.getSwe_n()));
             lbl.setText(p.getSwe_name());
         }
         lbl.setToolTipText(p.getSwe_name() + " " + p.getNote());
@@ -198,45 +183,7 @@ public class GUIPanel extends javax.swing.JPanel {
         return lbl;
     }
 
-    private void createAspLabel() {
-        JLabel lbl = new JLabel("");
-        lbl.setForeground(c_info);
-//        lbl.setOpaque(true);
-//        lbl.setBackground(Color.BLACK);
-        lbl.setFont(a2font.deriveFont(18F));
-        lbl.setText("Timeshift line");
-        lbl.setLocation(5, 5);
-        lbl.setSize(500, 60);
-        lbl.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        lbl.setToolTipText("<html>" + a2font.getFontName() + "<br>lines</html>");
-        lbl.setVisible(true);
-        labels_sasp.add(lbl);
-        this.add(lbl);
-    }
-
-//    private ImageIcon imgPlanet(int num) {
-//        BufferedImage src;
-//        int img_n = -1000;
-//        int file_n = -1000;
-//        if ((num >= 0) & (num < 10)) {
-//            file_n = 0;
-//            img_n = num;
-//        }
-//        if (num == 11) {
-//            file_n = 0;
-//            img_n = 10;
-//        }
-//        if (num == 15) {
-//            file_n = 0;
-//            img_n = 12;
-//        }
-//        if (img_n == -1000) {
-//            return new ImageIcon("");
-//        }
-//        src = this.pl_img.getSubimage(img_n * 40, 0, 40, 40);
-//        return iconRezive(src, size_pict);
-//    }
-    private void del_img() {
+   private void del_img() {
         while (line_h.size() > 0) {
             int index = line_h.size() - 1;
             arr_h arr = line_h.remove(index);
@@ -272,7 +219,7 @@ public class GUIPanel extends javax.swing.JPanel {
             int index = line_s_asp.size() - 1;
             arr_s_asp arr = line_s_asp.remove(index);
             arr = null;
-        }//line_s_asp
+        }
     }
 
     private void default_pl(Point[] ps) {
@@ -475,7 +422,6 @@ public class GUIPanel extends javax.swing.JPanel {
 
     public void paintCosmogram(Point[] ps) {
         del_img();
-        createAspLabel();
         switch (Setting.goroscop_setting.getAllocation2D()) {
             case (1): {
                 circle_pl(ps);
@@ -503,7 +449,6 @@ public class GUIPanel extends javax.swing.JPanel {
 
     public void paintGorosсop(Point[] ps, Houses hs) {
         del_img();
-        createAspLabel();
         if (hs != null) {
             if (hs.h != null) {
                 if (Setting.topcards == TopCards.ASC) {
@@ -559,11 +504,9 @@ public class GUIPanel extends javax.swing.JPanel {
         }
         graphics2d.setColor(c_background);
         graphics2d.fillOval(c_blank[0] - r_in_p, c_blank[1] - r_in_p, 2 * r_in_p, 2 * r_in_p);
-//        graphics2d.fillOval(c_blank[0] - r_in_z, c_blank[1] - r_in_z, 2 * r_in_z, 2 * r_in_z);
         graphics2d.drawImage(iconRezive(earth_img, 30).getImage(), c_blank[0] - 15, c_blank[1] - 15, null);
         graphics2d.setColor(c_info);
 
-//        graphics2d.drawOval(c_blank[0] - r_in_z, c_blank[1] - r_in_z, 2 * r_in_z, 2 * r_in_z);
         graphics2d.drawOval(c_blank[0] - r_out_z, c_blank[1] - r_out_z, 2 * r_out_z, 2 * r_out_z);
         TypeCards tC = Setting.typecards;
         switch (tC) {

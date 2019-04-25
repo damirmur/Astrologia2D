@@ -5,16 +5,14 @@
  */
 package astro;
 
+import astro.graphics.PaintGoroscop;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JRootPane;
-import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import util.Utilites;
 
@@ -31,7 +29,7 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-    public void MoonMonth(LocalDateTime dt) {
+    public void moonMonthInfo(LocalDateTime dt) {
 //    LocalDateTime dt=LocalDateTime.now();
         BufferedImage moonBlack_img =new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
         try {
@@ -57,15 +55,8 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         }
         jTextPane1.setCaretPosition(0);
     }
-    public void Goroscop(LocalDateTime dt) {
-        GUIPanel gp= new GUIPanel();
-        String cr="\r\n";
-        try {
-            jTextPane1.getDocument().insertString(jTextPane1.getDocument().getLength(),cr, null);
-        } catch (BadLocationException ex) {
-            Logger.getLogger(DocInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        jTextPane1.insertComponent(gp);
+    public void goroscopInfo(Goroscop gs) {
+        jTextPane1.insertComponent(new PaintGoroscop(gs,400).getJpanel());
         jTextPane1.setCaretPosition(0);
     }
 
@@ -85,6 +76,7 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        setPreferredSize(new java.awt.Dimension(410, 460));
 
         jScrollPane1.setViewportView(jTextPane1);
         jTextPane1.getAccessibleContext().setAccessibleName("TextPane");
@@ -97,7 +89,7 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
         );
 
         pack();

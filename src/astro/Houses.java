@@ -30,6 +30,10 @@ public class Houses {
     double h[];
     char houseSystem;
 
+    public double[] getH() {
+        return h;
+    }
+
     public double getAsc() {
         double asc = 0;
         if (h != null) {

@@ -23,10 +23,13 @@ public class GoroscopImageSetting {
     private int r_out_z = r_zod_sym + 20;
     private int r_h = r_out_z + 20;
     private int r_in_z = r_zod_sym - 20;
-    private int r_in_p = r_in_z - 30;
-    private int r_in_p2 = r_in_p + 10;
+    private int r_in_p = r_in_z - 40;
+    private int r_in_p2 = r_in_p + 30;
     private Color c_background = Color.WHITE;
     private Color c_info = new Color(0, 110, 255);
+    private int size_pict = 20;
+    private int c_size_pict = (int) Math.round(Math.sqrt(2 * size_pict * size_pict) / 2);
+
     //    Color c_foreground = this.getBackground();
 
     public GoroscopImageSetting() {}
@@ -40,10 +43,12 @@ public class GoroscopImageSetting {
     this.r_out_z = r_zod_sym + 20;
     this.r_h = r_out_z + 20;
     this.r_in_z = r_zod_sym - 20;
-    this.r_in_p = r_in_z - 30;
-    this.r_in_p2 = r_in_p + 10;
+    this.r_in_p = r_in_z - 40;
+    this.r_in_p2 = r_in_p + 20;
     this.c_background = Color.WHITE;
     this.c_info = new Color(0, 110, 255);
+    this.size_pict = 20;
+    this.c_size_pict = (int) Math.round(Math.sqrt(2 * size_pict * size_pict) / 2);
     //    Color c_foreground = this.getBackground();
     }
 
@@ -133,6 +138,14 @@ public class GoroscopImageSetting {
 
     public void setC_info(Color c_info) {
         this.c_info = c_info;
+    }
+
+    public int getSize_pict() {
+        return size_pict;
+    }
+
+    public int getC_size_pict() {
+        return c_size_pict;
     }
 
 }

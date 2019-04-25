@@ -271,6 +271,6 @@ public class Setting {
         clr_z[11][2] = 225;
         return clr_z;
     }
-    static boolean viewDeg = true;
+    public static boolean viewDeg = true;
 
 }

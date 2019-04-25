@@ -443,7 +443,7 @@ public class GlobalWindow extends javax.swing.JFrame {
         DocInternalFrame docMoon=new DocInternalFrame();
         jDesktopPane1.add(docMoon);
         docMoon.setVisible(true);
-        docMoon.MoonMonth(dateTimePicker1.getDateTimeStrict());
+        docMoon.moonMonthInfo(dateTimePicker1.getDateTimeStrict());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -451,7 +451,7 @@ public class GlobalWindow extends javax.swing.JFrame {
         DocInternalFrame docGor=new DocInternalFrame();
         jDesktopPane1.add(docGor);
         docGor.setVisible(true);
-        docGor.Goroscop(dateTimePicker1.getDateTimeStrict());
+        docGor.goroscopInfo(new Goroscop(dateTimePicker1.getDateTimeStrict().minusHours((int) Setting.tzOffset)));
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
