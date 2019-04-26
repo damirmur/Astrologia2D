@@ -5,7 +5,7 @@
  */
 package astro;
 
-import astro.graphics.PaintGoroscop;
+import astro.graphics.ImgGoroscop;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -56,7 +56,7 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         jTextPane1.setCaretPosition(0);
     }
     public void goroscopInfo(Goroscop gs) {
-        jTextPane1.insertComponent(new PaintGoroscop(gs,400).getJpanel());
+        jTextPane1.insertComponent(new ImgGoroscop(gs,500).getJpanel());
         jTextPane1.setCaretPosition(0);
     }
 

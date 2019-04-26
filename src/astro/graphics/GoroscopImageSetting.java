@@ -16,10 +16,10 @@ public class GoroscopImageSetting {
 //0 - неотсортировано; 1 - циркулярно;2 - радиус-вектор;    
 
     private int allocation2D = 2;
-    private int zod_img_size = 400;
+    private int zod_img_size = 600;
     private int[] c_blank = {(int) zod_img_size / 2, (int) zod_img_size / 2};
 
-    private int r_zod_sym = (int)(zod_img_size/2) - 50;
+    private int r_zod_sym = (int) (zod_img_size / 2) - 50;
     private int r_out_z = r_zod_sym + 20;
     private int r_h = r_out_z + 20;
     private int r_in_z = r_zod_sym - 20;
@@ -31,25 +31,12 @@ public class GoroscopImageSetting {
     private int c_size_pict = (int) Math.round(Math.sqrt(2 * size_pict * size_pict) / 2);
 
     //    Color c_foreground = this.getBackground();
+    public GoroscopImageSetting() {
+    }
 
-    public GoroscopImageSetting() {}
     public GoroscopImageSetting(int size) {
-    this.allocation2D = 2;
-    this.zod_img_size = size;
-    this.c_blank[0] = (int) zod_img_size / 2;
-    this.c_blank[1] = (int) zod_img_size / 2;
-
-    this.r_zod_sym = (int)(zod_img_size/2) - 50;
-    this.r_out_z = r_zod_sym + 20;
-    this.r_h = r_out_z + 20;
-    this.r_in_z = r_zod_sym - 20;
-    this.r_in_p = r_in_z - 40;
-    this.r_in_p2 = r_in_p + 20;
-    this.c_background = Color.WHITE;
-    this.c_info = new Color(0, 110, 255);
-    this.size_pict = 20;
-    this.c_size_pict = (int) Math.round(Math.sqrt(2 * size_pict * size_pict) / 2);
-    //    Color c_foreground = this.getBackground();
+        setZod_img_size(size);
+        setSize_pict(20);
     }
 
     public int getAllocation2D() {
@@ -64,8 +51,22 @@ public class GoroscopImageSetting {
         return zod_img_size;
     }
 
+    public void setSize_pict(int size) {
+        this.c_size_pict = size;
+        this.c_size_pict = (int) Math.round(Math.sqrt(2 * size_pict * size_pict) / 2);
+    }
+
     public void setZod_img_size(int zod_img_size) {
         this.zod_img_size = zod_img_size;
+        this.c_blank[0] = (int) zod_img_size / 2;
+        this.c_blank[1] = (int) zod_img_size / 2;
+
+        this.r_zod_sym = (int) (zod_img_size / 2) - 50;
+        this.r_out_z = r_zod_sym + 20;
+        this.r_h = r_out_z + 20;
+        this.r_in_z = r_zod_sym - 20;
+        this.r_in_p = r_in_z - 40;
+        this.r_in_p2 = r_in_p + 20;
     }
 
     public int[] getC_blank() {
@@ -80,48 +81,24 @@ public class GoroscopImageSetting {
         return r_zod_sym;
     }
 
-    public void setR_zod_sym(int r_zod_sym) {
-        this.r_zod_sym = r_zod_sym;
-    }
-
     public int getR_out_z() {
         return r_out_z;
-    }
-
-    public void setR_out_z(int r_out_z) {
-        this.r_out_z = r_out_z;
     }
 
     public int getR_h() {
         return r_h;
     }
 
-    public void setR_h(int r_h) {
-        this.r_h = r_h;
-    }
-
     public int getR_in_z() {
         return r_in_z;
-    }
-
-    public void setR_in_z(int r_in_z) {
-        this.r_in_z = r_in_z;
     }
 
     public int getR_in_p() {
         return r_in_p;
     }
 
-    public void setR_in_p(int r_in_p) {
-        this.r_in_p = r_in_p;
-    }
-
     public int getR_in_p2() {
         return r_in_p2;
-    }
-
-    public void setR_in_p2(int r_in_p2) {
-        this.r_in_p2 = r_in_p2;
     }
 
     public Color getC_background() {

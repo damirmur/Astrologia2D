@@ -1,6 +1,6 @@
 
 import astro.Goroscop;
-import astro.graphics.PaintGoroscop;
+import astro.graphics.ImgGoroscop;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JRootPane;
@@ -28,7 +28,7 @@ public class TestImageZod {
         frame.setUndecorated(true);
         frame.getRootPane().setWindowDecorationStyle(JRootPane.PLAIN_DIALOG);
         
-        frame.add(new PaintGoroscop(new Goroscop(),400).getJpanel());
+        frame.add(new ImgGoroscop(new Goroscop(),600).getJpanel());
         frame.pack();
         frame.repaint();
         frame.revalidate();

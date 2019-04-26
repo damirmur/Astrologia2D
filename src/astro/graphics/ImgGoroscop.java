@@ -5,10 +5,13 @@
  */
 package astro.graphics;
 
+import astro.Aspect;
+import astro.Calc.CalcAspect;
 import astro.GUIPanel;
 import astro.Goroscop;
 import astro.Houses;
 import astro.Point;
+import astro.PointPosMap;
 import astro.Setting;
 import static astro.Setting.c_green;
 import astro.graphics.GoroscopImageSetting;
@@ -26,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -37,7 +41,7 @@ import static util.Utilites.iconRezive;
  *
  * @author Admin
  */
-public class PaintGoroscop {
+public class ImgGoroscop {
 
     private BufferedImage zod_img;
     private GoroscopImageSetting gs;
@@ -46,18 +50,48 @@ public class PaintGoroscop {
     private static BufferedImage earth_img;
     BufferedImage p_img;
 
-    private class x1y2 {
+    private class ObjX1_Y2 {
 
         int x1, y1, x2, y2;
 
-        public x1y2(int x1, int y1, int x2, int y2) {
+        public ObjX1_Y2(int x1, int y1, int x2, int y2) {
             this.x1 = x1;
             this.y1 = y1;
             this.x2 = x2;
             this.y2 = y2;
         }
     }
-    private List<x1y2> line_h = new ArrayList<x1y2>();
+
+    private class ObjSAsp {
+
+        int x1, y1, x2, y2;
+        Setting.TypeAsp typeasp;
+        Setting.PrecisionAsp precisionasp;
+        Setting.DirectionAsp directionasp;
+        
+        public ObjSAsp(int x1, int y1, int x2, int y2, Setting.TypeAsp typeasp) {
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.y2 = y2;
+            this.typeasp = typeasp;
+            this.precisionasp = Setting.PrecisionAsp.PRECISION;
+            this.directionasp = Setting.DirectionAsp.CONVERGENT;
+        }
+
+        public ObjSAsp(int x1, int y1, int x2, int y2, Setting.TypeAsp typeasp,Setting.PrecisionAsp precisionasp,Setting.DirectionAsp directionasp) {
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.y2 = y2;
+            this.typeasp = typeasp;
+            this.precisionasp = precisionasp;
+            this.directionasp = directionasp;
+        }
+    }
+
+    private List<ObjX1_Y2> line_h = new ArrayList<ObjX1_Y2>();
+    private List<ObjSAsp> line_sasp = new ArrayList<ObjSAsp>();
     private List<JLabel> labels_plDeg = new ArrayList<JLabel>();
     private List<JLabel> labels_p = new ArrayList<JLabel>();
     private List<JLabel> labels_pl = new ArrayList<JLabel>();
@@ -87,19 +121,38 @@ public class PaintGoroscop {
         return panel;
     }
 
-    public PaintGoroscop(Goroscop gor) {
-//        PaintGoroscop( gor,Setting.goroscop_setting.getZod_img_size());
-    }
-
-    public PaintGoroscop(Goroscop gor, int size) {
+    void paint(Goroscop gor, int size) {
         this.gs = new GoroscopImageSetting(size);
         init();
         int startGoroskop = (int) gor.getHouse().getAsc();
         paintZodiac(this.graphics2d, startGoroskop);
         create_House(gor.getHouse());
         paintHouse(this.graphics2d);
-        paint_default_img(gor.getPoints(), startGoroskop);
+        createS_ASP(gor.getPoints(), startGoroskop);
+        paintSAspects(this.getGraphics2d());
+        switch (Setting.goroscop_setting.getAllocation2D()) {
+            case (1): {
+                circle_pl(gor.getPoints(), startGoroskop);
+                break;
+            }
+            case (2): {
+                rvector_pl(gor.getPoints(), startGoroskop);
+                break;
+            }
+            case (0): {
+                paint_default_img(gor.getPoints(), startGoroskop);
+                break;
+            }
+        }
+        createPointPl(gor.getPoints(), startGoroskop);
+    }
 
+    public ImgGoroscop(Goroscop gor) {
+        paint(gor, Setting.goroscop_setting.getZod_img_size());
+    }
+
+    public ImgGoroscop(Goroscop gor, int size) {
+        paint(gor, size);
     }
 
     private void init() {
@@ -186,7 +239,7 @@ public class PaintGoroscop {
             yp1 = gs.getC_blank()[1] + (int) Math.round(Math.sin(ad) * gs.getR_in_p());
             xp2 = gs.getC_blank()[0] + (int) Math.round(-Math.cos(ad) * gs.getR_h());
             yp2 = gs.getC_blank()[1] + (int) Math.round(Math.sin(ad) * gs.getR_h());
-            line_h.add(new x1y2(xp1, yp1, xp2, yp2));
+            line_h.add(new ObjX1_Y2(xp1, yp1, xp2, yp2));
         }
     }
 
@@ -316,18 +369,11 @@ public class PaintGoroscop {
         return lbl;
     }
 
-    private void paint_default_img(Point[] ps, int startGoroskop) {
+    private void createPointPl(Point[] ps, int startGoroskop) {
         double ad;
         int xp, yp;
         for (Point p : ps) {
             ad = Math.toRadians(p.getPos() - startGoroskop);
-            xp = gs.getC_blank()[0] + (int) Math.round(-Math.cos(ad) * (gs.getR_in_p2()));
-            yp = gs.getC_blank()[1] + (int) Math.round(Math.sin(ad) * (gs.getR_in_p2()));
-            paintSignPl(this.getGraphics2d(), p, Color.BLACK, xp, yp+10);//paintSignPl
-//            this.add(createLPointPl(p, gs.getC_info(), xp, yp));
-            if (Setting.viewDeg) {
-//                this.add(createLPointPlDeg(p, gs.getC_info(), xp + gs.getSize_pict(), yp));
-            };
             xp = gs.getC_blank()[0] + (int) Math.round(-Math.cos(ad) * gs.getR_in_p()) - 2;
             yp = gs.getC_blank()[1] + (int) Math.round(Math.sin(ad) * gs.getR_in_p()) - 2;
             paintPointPl(this.getGraphics2d(), p, gs.getC_info(), xp, yp);
@@ -335,4 +381,113 @@ public class PaintGoroscop {
 
         }
     }
+
+    private void paint_default_img(Point[] ps, int startGoroskop) {
+        double ad;
+        int xp, yp;
+        for (Point p : ps) {
+            ad = Math.toRadians(p.getPos() - startGoroskop);
+            xp = gs.getC_blank()[0] + (int) Math.round(-Math.cos(ad) * (gs.getR_in_p2()));
+            yp = gs.getC_blank()[1] + (int) Math.round(Math.sin(ad) * (gs.getR_in_p2()));
+            paintSignPl(this.getGraphics2d(), p, Color.BLACK, xp, yp + 10);//paintSignPl
+//            this.add(createLPointPl(p, gs.getC_info(), xp, yp));
+            if (Setting.viewDeg) {
+//                this.add(createLPointPlDeg(p, gs.getC_info(), xp + gs.getSize_pict(), yp));
+            };
+        }
+    }
+
+    public int region_pl() {
+        int a = (int) Math.round((2 * Math.PI * gs.getR_in_p() + gs.getC_size_pict()) / (gs.getC_size_pict()));
+        return a;
+    }
+
+    private void circle_pl(Point[] ps, int startGoroskop) {
+        PointPosMap[] aPPM = PointPosMap.sortD_pl(ps, region_pl());
+        position_pl(aPPM, startGoroskop);
+        //            CreateAsp();
+
+    }
+
+    private void rvector_pl(Point[] ps, int startGoroskop) {
+        PointPosMap[] aPPM = PointPosMap.sortRD_pl(ps, region_pl());
+        double chord = 360 + aPPM[0].getPosGr() - aPPM[aPPM.length - 1].getPosGr();
+        if ((chord) < 360 / region_pl()) {
+            aPPM[0].setPosR(aPPM[aPPM.length - 1].getPosR() + 1);
+        }
+        position_pl(aPPM, startGoroskop);
+    }
+
+    private void position_pl(PointPosMap[] aPPM, int startGoroskop) {
+        double ad;
+        int xp1, yp1;
+        for (PointPosMap p : aPPM) {
+            ad = Math.toRadians(p.getPosD() * 360 / region_pl() - startGoroskop);
+            xp1 = gs.getC_blank()[0] + (int) Math.round(-Math.cos(ad) * (gs.getR_in_p() + gs.getC_size_pict() * ((p.getPosR() + 1) * 2)));
+            yp1 = gs.getC_blank()[1] + (int) Math.round(Math.sin(ad) * (gs.getR_in_p() + gs.getC_size_pict() * ((p.getPosR() + 1) * 2)));
+            paintSignPl(this.getGraphics2d(), p.getPl(), Color.BLACK, xp1 - gs.getC_size_pict(), yp1 + gs.getC_size_pict());
+//            this.add(createLPointPl(p.getPl(), gs.getC_info(), xp1, yp1));
+            if (Setting.viewDeg) {
+//                this.add(createLPointPlDeg(p.getPl(), gs.getC_info(), xp1 + gs.getSize_pict() / 2, yp1 - gs.getSize_pict() / 2));
+            };
+        }
+//        createP_Pl(aPPM);
+
+    }
+        private void createS_ASP(Point[] ps, int startGoroskop) {
+        Aspect[] SingleCardAspect = CalcAspect.SingleCardAspect(ps, Setting.aspMajor, Setting.orbNat);
+        double ad1, ad2;
+        int xp1, yp1;
+        int xp2, yp2;
+        for (Aspect as : SingleCardAspect) {
+            ad1 = Math.toRadians(as.getP()[0].getPos() - startGoroskop);
+            ad2 = Math.toRadians(as.getP()[1].getPos() - startGoroskop);
+            xp1 = gs.getC_blank()[0] + (int) Math.round(-Math.cos(ad1) * gs.getR_in_p()) - 2;
+            yp1 = gs.getC_blank()[1] + (int) Math.round(Math.sin(ad1) * gs.getR_in_p()) - 2;
+            xp2 = gs.getC_blank()[0] + (int) Math.round(-Math.cos(ad2) * gs.getR_in_p()) - 2;
+            yp2 = gs.getC_blank()[1] + (int) Math.round(Math.sin(ad2) * gs.getR_in_p()) - 2;
+            if (0 == as.getAsp()) {
+                line_sasp.add(new ObjSAsp(xp1, yp1, xp2, yp2, Setting.TypeAsp.MATCH));
+            } else if (IntStream.of(Setting.aspGarmonic).anyMatch(x -> x == as.getAsp())) {
+                line_sasp.add(new ObjSAsp(xp1, yp1, xp2, yp2, Setting.TypeAsp.GARMONIC));
+            } else if (IntStream.of(Setting.aspStress).anyMatch(x -> x == as.getAsp())) {
+                line_sasp.add(new ObjSAsp(xp1, yp1, xp2, yp2, Setting.TypeAsp.STRESS));
+            }
+        }
+    }
+    private void paintSAspects(Graphics2D graphics2d) {
+        if (line_sasp.size() > 0) {
+            line_sasp.forEach((line)
+                    -> {
+                Setting.TypeAsp tasp = line.typeasp;
+                if (null != tasp) {
+                    switch (tasp) {
+                        case MATCH: {
+                            Color clr = Color.BLUE;
+                            graphics2d.setColor(clr);
+                            break;
+                        }
+                        case GARMONIC: {
+                            Color clr = c_green;
+                            graphics2d.setColor(clr);
+                            break;
+                        }
+                        case STRESS: {
+                            Color clr = Color.RED;
+                            graphics2d.setColor(clr);
+                            break;
+                        }
+                        default:
+                            graphics2d.setColor(gs.getC_info());
+                            break;
+                    }
+                }
+                graphics2d.setStroke(new BasicStroke(2.0f));
+                graphics2d.drawLine(line.x1, line.y1, line.x2, line.y2);
+            }
+            );
+        }
+    }
+
+
 }

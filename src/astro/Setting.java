@@ -122,6 +122,14 @@ public class Setting {
         STRESS,
         MATCH
     }
+    public static enum PrecisionAsp {
+        PRECISION,
+        IMPRECISION
+    }
+    public static enum DirectionAsp {
+        CONVERGENT,
+        DIVERGENT
+    }
     public static char houseSystem = 'P';
     public static String zodiac = "tropical";
 
