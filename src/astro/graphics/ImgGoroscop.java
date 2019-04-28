@@ -7,11 +7,11 @@ package astro.graphics;
 
 import astro.Aspect;
 import astro.Calc.CalcAspect;
-import astro.GUIPanel;
+import astro.GUI.pc.GUIPanel;
 import astro.Goroscop;
 import astro.Houses;
 import astro.Point;
-import astro.PointPosMap;
+import astro.Calc.PointPosMap;
 import astro.Setting;
 import static astro.Setting.c_green;
 import astro.graphics.GoroscopImageSetting;

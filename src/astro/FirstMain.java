@@ -5,6 +5,7 @@
  */
 package astro;
 
+import astro.GUI.pc.GlobalWindow;
 import java.io.FileNotFoundException;
 import swisseph.*;
 

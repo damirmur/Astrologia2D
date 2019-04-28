@@ -149,4 +149,21 @@ public class Goroscop {
 
     }
 
+    public String getText() {
+        String text = "\r\n";
+        MoonData md = new MoonData(null, this.getDt());
+        text = text + "Moon day " + md.getMonday() + "\r\n";
+        text = text + "Moon fase " + md.getPhase() + "\n";
+        text = text + "Planet natal\n";
+        for (Point point : this.getPoints()) {
+            text = text + (point.getSwe_Sym() + point.getRetro_Sym() + " " + point.getAfontNote() + "\n");
+        }
+        text = text + ("Aspect natal\n");
+        for (Aspect aspect : this.getAspects()) {
+            text = text + (aspect.getP()[0].getSwe_Sym() + " " + aspect.getSym() + " " + aspect.getP()[1].getSwe_Sym() + "\n");
+        }
+
+        return text;
+    }
+
 }

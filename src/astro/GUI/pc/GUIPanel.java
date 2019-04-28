@@ -3,9 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package astro;
+package astro.GUI.pc;
 
+import astro.Aspect;
+import astro.Calc.PointPosMap;
 import astro.Calc.CalcAspect;
+import astro.Goroscop;
+import astro.Houses;
+import astro.Point;
+import astro.Setting;
 import astro.Setting.TopCards;
 import astro.Setting.TypeAsp;
 import astro.Setting.TypeCards;
@@ -315,14 +321,14 @@ public class GUIPanel extends javax.swing.JPanel {
         if (hs == null) {
             return;
         }
-        if (hs.h == null) {
+        if (hs.getH() == null) {
             return;
         }
         double ad;
         int xp1, yp1;
         int xp2, yp2;
-        for (int i = 0; i < hs.h.length; i++) {
-            ad = Math.toRadians(hs.h[i] - startGoroskop);
+        for (int i = 0; i < hs.getH().length; i++) {
+            ad = Math.toRadians(hs.getH()[i] - startGoroskop);
             xp1 = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_in_p);
             yp1 = c_blank[1] + (int) Math.round(Math.sin(ad) * r_in_p);
             xp2 = c_blank[0] + (int) Math.round(-Math.cos(ad) * r_h);
@@ -450,7 +456,7 @@ public class GUIPanel extends javax.swing.JPanel {
     public void paintGorosсop(Point[] ps, Houses hs) {
         del_img();
         if (hs != null) {
-            if (hs.h != null) {
+            if (hs.getH() != null) {
                 if (Setting.topcards == TopCards.ASC) {
                     startGoroskop = hs.getAsc();
                 }

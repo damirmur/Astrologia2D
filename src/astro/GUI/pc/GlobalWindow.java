@@ -3,15 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package astro;
+package astro.GUI.pc;
 
+import astro.Aspect;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import astro.Calc.CalcAspect;
 import astro.Calc.CalcEvent;
+import astro.Cosmogram;
+import astro.FirstMain;
+import astro.Goroscop;
+import astro.MoonData;
+import astro.Point;
+import astro.Setting;
 import java.awt.Font;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import util.AstrologyFonts;
 
 /**
@@ -29,7 +39,13 @@ public class GlobalWindow extends javax.swing.JFrame {
         a2font = AstrologyFonts.getFont(Setting.a2fname);
         initComponents();
         pack();
+        jTabbedPane1.setSelectedIndex(1);
+        DocInternalFrame docBlank = new DocInternalFrame();
+        jDesktopPane1.add(docBlank);
+        docBlank.setVisible(true);
+
         jTextArea1.setFont(a2font.deriveFont(14F));
+
     }
 
     /**
@@ -41,6 +57,7 @@ public class GlobalWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem4 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -61,16 +78,19 @@ public class GlobalWindow extends javax.swing.JFrame {
         jSlider2 = new javax.swing.JSlider();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        gUIPanel1 = new astro.GUIPanel();
+        gUIPanel1 = new astro.GUI.pc.GUIPanel();
         jPanel7 = new javax.swing.JPanel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+
+        jMenuItem4.setText("jMenuItem4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -264,6 +284,12 @@ public class GlobalWindow extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab1", jPanel6);
 
+        jDesktopPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jDesktopPane1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
@@ -297,6 +323,14 @@ public class GlobalWindow extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem1);
+
+        jMenuItem3.setText("NewBlank");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
 
@@ -370,17 +404,17 @@ public class GlobalWindow extends javax.swing.JFrame {
 
         jTextArea1.setText("");
         Goroscop gs = new Goroscop(dt);
-        MoonData md=new MoonData(null,dt);
+        MoonData md = new MoonData(null, dt);
 //        MoonData.moon_zod(sw, sd, ABORT);
-        jTextArea1.append("Moon day "+md.getMonday() + "\n");
-        jTextArea1.append("Moon fase "+md.getPhase() + "\n");
+        jTextArea1.append("Moon day " + md.getMonday() + "\n");
+        jTextArea1.append("Moon fase " + md.getPhase() + "\n");
         jTextArea1.append("Planet natal\n");
         for (Point point : gs.getPoints()) {
-            jTextArea1.append(point.getSwe_Sym() + point.getRetro_Sym()+" "+ point.getAfontNote() + "\n");
+            jTextArea1.append(point.getSwe_Sym() + point.getRetro_Sym() + " " + point.getAfontNote() + "\n");
         }
         jTextArea1.append("Aspect natal\n");
         for (Aspect aspect : gs.getAspects()) {
-            jTextArea1.append( aspect.getP()[0].getSwe_Sym()+" "+ aspect.getSym()+" "+ aspect.getP()[1].getSwe_Sym()+"\n");
+            jTextArea1.append(aspect.getP()[0].getSwe_Sym() + " " + aspect.getSym() + " " + aspect.getP()[1].getSwe_Sym() + "\n");
         }
         if (jCheckBox1.isSelected()) {
             Cosmogram cst = new Cosmogram(dateTimePicker2.getDateTimeStrict());
@@ -440,7 +474,7 @@ public class GlobalWindow extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         jTabbedPane1.setSelectedIndex(1);
-        DocInternalFrame docMoon=new DocInternalFrame();
+        DocInternalFrame docMoon = new DocInternalFrame();
         jDesktopPane1.add(docMoon);
         docMoon.setVisible(true);
         docMoon.moonMonthInfo(dateTimePicker1.getDateTimeStrict());
@@ -448,12 +482,27 @@ public class GlobalWindow extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         jTabbedPane1.setSelectedIndex(1);
-        DocInternalFrame docGor=new DocInternalFrame();
+        DocInternalFrame docGor = new DocInternalFrame();
         jDesktopPane1.add(docGor);
         docGor.setVisible(true);
         docGor.goroscopInfo(new Goroscop(dateTimePicker1.getDateTimeStrict().minusHours((int) Setting.tzOffset)));
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+        DocInternalFrame docBlank = new DocInternalFrame();
+        jDesktopPane1.add(docBlank);
+        docBlank.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jDesktopPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDesktopPane1MouseClicked
+        DocInternalFrame docBlank = new DocInternalFrame();
+        jDesktopPane1.add(docBlank);
+        docBlank.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jDesktopPane1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -495,7 +544,7 @@ public class GlobalWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.github.lgooddatepicker.components.DateTimePicker dateTimePicker1;
     private com.github.lgooddatepicker.components.DateTimePicker dateTimePicker2;
-    private astro.GUIPanel gUIPanel1;
+    private astro.GUI.pc.GUIPanel gUIPanel1;
     private javax.swing.JTextField interval;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
@@ -509,6 +558,8 @@ public class GlobalWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

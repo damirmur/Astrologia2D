@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package astro;
+package astro.Calc;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import astro.Point;
 import astro.Point;
 
 /**
