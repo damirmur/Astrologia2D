@@ -10,11 +10,17 @@ import astro.Goroscop;
 import astro.MoonData;
 import astro.Setting;
 import astro.graphics.ImgGoroscop;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import static java.lang.reflect.Array.set;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -264,9 +270,9 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
 
     private void jMenuNewTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuNewTabActionPerformed
         try {
-             JInternalFrame newblank=super.getClass().newInstance();
-             super.getParent().add(newblank);
-             newblank.setVisible(true);
+            JInternalFrame newblank = super.getClass().newInstance();
+            super.getParent().add(newblank);
+            newblank.setVisible(true);
         } catch (InstantiationException ex) {
             Logger.getLogger(DocInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
@@ -278,7 +284,7 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
 
     private void jMenuNewURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuNewURLActionPerformed
         jTextPane1.setContentType("text/html");
-    jTextPane1.setEditable(false);
+        jTextPane1.setEditable(false);
 
         try {
             jTextPane1.setPage("https://google.com");
