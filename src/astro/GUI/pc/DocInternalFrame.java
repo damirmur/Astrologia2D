@@ -13,14 +13,7 @@ import astro.graphics.ImgGoroscop;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import static java.lang.reflect.Array.set;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -76,10 +69,6 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         jTextPane1.setCaretPosition(0);
     }
 
-    public void newURL() {
-//        jTextPane1.insertComponent(new ImgGoroscop(gs,500).getJpanel());
-//        jTextPane1.setCaretPosition(0);
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -283,16 +272,9 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuNewTabActionPerformed
 
     private void jMenuNewURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuNewURLActionPerformed
-        jTextPane1.setContentType("text/html");
-        jTextPane1.setEditable(false);
-
-        try {
-            jTextPane1.setPage("https://google.com");
-//            jTextPane1.setPage("https://mail.ru");
-        } catch (IOException ex) {
-            Logger.getLogger(DocInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+            JInternalFrame newblank = new WebInternalFrame("https://google.com");
+            super.getParent().add(newblank);
+            newblank.setVisible(true);
         jPopupMenu1.setVisible(false);
     }//GEN-LAST:event_jMenuNewURLActionPerformed
 
