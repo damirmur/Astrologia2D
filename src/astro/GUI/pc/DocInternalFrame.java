@@ -10,6 +10,8 @@ import astro.Goroscop;
 import astro.MoonData;
 import astro.Setting;
 import astro.graphics.ImgGoroscop;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.components.TimePickerSettings;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -90,6 +92,16 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         jMenuExit = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuNewURL = new javax.swing.JMenuItem();
+        jDialog1 = new javax.swing.JDialog();
+        DatePickerSettings dateSettings = new DatePickerSettings();
+        TimePickerSettings       timeSettings = new TimePickerSettings();
+        dateSettings.setAllowEmptyDates(false);
+        timeSettings.setDisplayToggleTimeMenuButton(false);
+        timeSettings.setDisplaySpinnerButtons(true);
+        timeSettings.setInitialTimeToNow();
+        dateTimePicker2 =  new com.github.lgooddatepicker.components.DateTimePicker(dateSettings,timeSettings);
+
+        dateTimePicker2.datePicker.setDateToToday();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
 
@@ -120,6 +132,11 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         jPopupMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("jMenuItem3");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(jMenuItem3);
 
         jMenuItem4.setText("jMenuItem4");
@@ -163,6 +180,23 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
             }
         });
         jPopupMenu1.add(jMenuNewURL);
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(dateTimePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addComponent(dateTimePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(102, Short.MAX_VALUE))
+        );
 
         setClosable(true);
         setIconifiable(true);
@@ -219,6 +253,7 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         }
 
         jTextPane1.setCaretPosition(0);
+        setTitle("Gor. "+LocalDateTime.now().minusHours((long) Setting.tzOffset));
 
         jPopupMenu1.setVisible(false);
 
@@ -240,12 +275,14 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
             Logger.getLogger(DocInternalFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         jTextPane1.setCaretPosition(0);
+        setTitle("Gor. "+Setting.ldt.minusHours((long) Setting.tzOffset));
 
         jPopupMenu1.setVisible(false);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         moonMonthInfo(LocalDateTime.now().minusHours((long) Setting.tzOffset));
+        setTitle("MoonCal "+LocalDateTime.now().minusHours((long) Setting.tzOffset));
         jPopupMenu1.setVisible(false);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
@@ -278,8 +315,15 @@ public class DocInternalFrame extends javax.swing.JInternalFrame {
         jPopupMenu1.setVisible(false);
     }//GEN-LAST:event_jMenuNewURLActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        jDialog1.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.github.lgooddatepicker.components.DateTimePicker dateTimePicker2;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JMenuItem jMenuCancel;
     private javax.swing.JMenuItem jMenuExit;
     private javax.swing.JMenuItem jMenuItem1;
